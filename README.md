@@ -287,23 +287,27 @@ SMS Notification
 # Project Structure
 
 ```text
-ecommerce-system
+E-Commerce-Order-Management-System
 
-├── user-service
+├── backend/
+│   ├── user-service/
+│   ├── product-service/
+│   ├── order-service/
+│   ├── inventory-service/
+│   └── notification-service/
 │
-├── product-service
+├── frontend/
+│   └── (React Application)
 │
-├── order-service
+├── docs/
+│   ├── Interview-Questions.md
+│   └── E-Commerce-Postman-Collection.json
 │
-├── inventory-service
+├── archive/
+│   └── ecommerce-monolith/
 │
-├── notification-service
-│
-├── common-library
-│
-├── docker
-│
-└── docs
+├── docker-compose.yml
+└── README.md
 ```
 
 ---

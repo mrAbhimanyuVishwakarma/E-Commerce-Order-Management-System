@@ -35,7 +35,7 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
   user-service:
-    build: ./user-service
+    build: ./backend/user-service
     container_name: user-service
     restart: on-failure
     ports:
@@ -46,7 +46,7 @@ services:
       - mysql
 
   product-service:
-    build: ./product-service
+    build: ./backend/product-service
     container_name: product-service
     restart: on-failure
     ports:
@@ -57,7 +57,7 @@ services:
       - mysql
 
   order-service:
-    build: ./order-service
+    build: ./backend/order-service
     container_name: order-service
     restart: on-failure
     ports:
@@ -70,7 +70,7 @@ services:
       - kafka
 
   inventory-service:
-    build: ./inventory-service
+    build: ./backend/inventory-service
     container_name: inventory-service
     restart: on-failure
     ports:
@@ -95,7 +95,7 @@ services:
       - order-service
 
   notification-service:
-    build: ./notification-service
+    build: ./backend/notification-service
     container_name: notification-service
     restart: on-failure
     ports:
