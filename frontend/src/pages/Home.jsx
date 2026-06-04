@@ -18,7 +18,9 @@ const Home = () => {
     const fetchProducts = async () => {
       try {
         const token = localStorage.getItem('token');
-        const headers = token ? { Authorization: `Bearer ${token}` } : {};
+        const headers = (token && token !== 'null' && token !== 'undefined') 
+            ? { Authorization: `Bearer ${token}` } 
+            : {};
         
         const response = await axios.get('http://localhost:8082/api/products', { headers });
         setProducts(response.data);

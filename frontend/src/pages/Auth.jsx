@@ -6,7 +6,7 @@ import './Auth.css';
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
-  const [formData, setFormData] = useState({ name: '', email: '', password: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', mobileNumber: '', password: '', identifier: '' });
   const [error, setError] = useState('');
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ const Auth = () => {
       if (isLogin) {
         // Login
         const res = await axios.post('http://localhost:8081/api/auth/login', {
-          email: formData.email,
+          identifier: formData.identifier,
           password: formData.password
         });
         login(res.data);
@@ -33,6 +33,7 @@ const Auth = () => {
         await axios.post('http://localhost:8081/api/auth/register', {
           name: formData.name,
           email: formData.email,
+          mobileNumber: formData.mobileNumber || null,
           password: formData.password,
           role: 'CUSTOMER'
         });
@@ -71,17 +72,44 @@ const Auth = () => {
             </div>
           )}
           
-          <div className="input-group">
-            <label>Email Address</label>
-            <input 
-              type="email" 
-              name="email" 
-              value={formData.email} 
-              onChange={handleChange} 
-              required 
-              placeholder="you@example.com"
-            />
-          </div>
+          {!isLogin ? (
+            <>
+              <div className="input-group">
+                <label>Email Address</label>
+                <input 
+                  type="email" 
+                  name="email" 
+                  value={formData.email} 
+                  onChange={handleChange} 
+                  required 
+                  placeholder="you@example.com"
+                />
+              </div>
+              
+              <div className="input-group">
+                <label>Mobile Number (Optional)</label>
+                <input 
+                  type="tel" 
+                  name="mobileNumber" 
+                  value={formData.mobileNumber} 
+                  onChange={handleChange} 
+                  placeholder="+1 (555) 000-0000"
+                />
+              </div>
+            </>
+          ) : (
+            <div className="input-group">
+              <label>Email or Mobile Number</label>
+              <input 
+                type="text" 
+                name="identifier" 
+                value={formData.identifier} 
+                onChange={handleChange} 
+                required 
+                placeholder="Email or Mobile"
+              />
+            </div>
+          )}
 
           <div className="input-group">
             <label>Password</label>

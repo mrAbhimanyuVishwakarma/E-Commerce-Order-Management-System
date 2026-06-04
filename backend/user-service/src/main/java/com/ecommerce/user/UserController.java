@@ -27,6 +27,7 @@ public class UserController {
         User user = new User();
         user.setName(dto.getName());
         user.setEmail(dto.getEmail());
+        user.setMobileNumber(dto.getMobileNumber());
         user.setPassword(dto.getPassword());
         user.setRole(dto.getRole() != null ? dto.getRole() : "CUSTOMER");
         
@@ -37,7 +38,7 @@ public class UserController {
     @PostMapping("/auth/login")
     public ResponseEntity<String> login(@RequestBody UserLoginDto dto) {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword())
+                new UsernamePasswordAuthenticationToken(dto.getIdentifier(), dto.getPassword())
         );
 
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();

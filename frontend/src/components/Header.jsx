@@ -1,11 +1,20 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ShoppingBag, User, Search, Truck } from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
 import './Header.css';
 
 const Header = () => {
   const { token, logout } = useContext(AuthContext);
+  const [searchTerm, setSearchTerm] = React.useState('');
+  const navigate = useNavigate();
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchTerm.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchTerm)}`);
+    }
+  };
 
   return (
     <header className="header">
@@ -15,15 +24,20 @@ const Header = () => {
             <Link to="/" className="logo">AXEDROBE</Link>
           </div>
           
-          <div className="search-bar">
+          <form className="search-bar" onSubmit={handleSearch}>
             <Search size={18} className="search-icon" />
-            <input type="text" placeholder="Search for clothes..." />
-          </div>
+            <input 
+              type="text" 
+              placeholder="Search for clothes..." 
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </form>
 
           <div className="header-actions">
-            <div className="action-btn" title="Track Order">
+            <Link to="/orders" className="action-btn" title="Track Order">
               <Truck size={20} />
-            </div>
+            </Link>
             {token ? (
               <button onClick={logout} className="action-btn" title="Logout">
                 <User size={20} /> {/* Ideally a profile dropdown, just logging out for now */}
@@ -43,12 +57,12 @@ const Header = () => {
       <div className="header-bottom">
         <div className="container">
           <nav className="nav-links">
-            <Link to="/" className="nav-link">Best Sellers</Link>
-            <Link to="/" className="nav-link">New Arrivals</Link>
-            <Link to="/" className="nav-link">Men</Link>
-            <Link to="/" className="nav-link">Women</Link>
-            <Link to="/" className="nav-link">Accessories</Link>
-            <Link to="/" className="nav-link">Sale</Link>
+            <Link to="/category/best-sellers" className="nav-link">Best Sellers</Link>
+            <Link to="/category/new-arrivals" className="nav-link">New Arrivals</Link>
+            <Link to="/category/men" className="nav-link">Men</Link>
+            <Link to="/category/women" className="nav-link">Women</Link>
+            <Link to="/category/accessories" className="nav-link">Accessories</Link>
+            <Link to="/category/sale" className="nav-link">Sale</Link>
           </nav>
         </div>
       </div>
