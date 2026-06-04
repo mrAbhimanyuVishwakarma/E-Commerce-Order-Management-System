@@ -1,10 +1,3 @@
-# E-Commerce-Order-Management-System
-For generating a complete project from a detailed specification, **Gemini 3.1 Pro (High)** is the best choice from your list. It is generally stronger at large-scale code generation, maintaining consistency across multiple files, and following a detailed architecture document. Use Claude Opus 4.6 (Thinking) as a reviewer afterward if available.
-
-Below is a README/specification you can directly give to Gemini.
-
----
-
 # E-Commerce Order Management System
 
 ## Project Overview
@@ -22,7 +15,6 @@ A microservices-based e-commerce backend application demonstrating:
 * Docker (Optional)
 * API Documentation
 
-This project is designed for a Java Backend Engineer with 2 years of experience and should be suitable for resume and interview discussions.
 
 ---
 
@@ -441,47 +433,3 @@ All Services
 ```
 
 ---
-
-# Resume Highlights
-
-After completion, resume bullets:
-
-```text
-Developed a microservices-based e-commerce platform using Java and Spring Boot.
-
-Implemented JWT-based authentication and authorization.
-
-Designed and developed RESTful APIs for product, order, and user management.
-
-Integrated Apache Kafka for asynchronous order processing and inventory updates.
-
-Built MySQL database schemas and managed persistence using Spring Data JPA.
-
-Containerized services using Docker and managed multi-service deployment.
-
-Documented APIs using Swagger/OpenAPI.
-```
-
----
-
-# Instructions for AI Agent
-
-Generate the project in the following order:
-
-1. Monolith version first.
-2. Explain every folder and file.
-3. Add comments in code.
-4. Create database scripts.
-5. Create Postman collection.
-6. Add Swagger.
-7. Add JWT authentication.
-8. Add Kafka integration.
-9. Refactor into microservices.
-10. Add Docker support.
-11. Create interview questions based on the project.
-12. Keep code beginner-friendly and production-style.
-13. Explain every design decision.
-14. Use Java 17 and Spring Boot 3.
-15. Do not skip any implementation step.
-
-This approach matches your current level much better than jumping straight into a complex production-grade system. Building the monolith first and then converting it into microservices will give you much stronger interview answers because you'll understand *why* Kafka and microservices were introduced, not just how to copy them.
