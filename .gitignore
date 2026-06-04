@@ -48,3 +48,4 @@ docker-compose.override.yml
 # Personal / Private Files
 docs/Interview-Questions.md
 archive/
+updateLogs.md
