@@ -76,9 +76,23 @@ services:
     ports:
       - "8084:8084"
     environment:
-      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:29092
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL:-jdbc:mysql://mysql:3306/ecommerce_inventory_db?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
+      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME:-root}
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD:-root}
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
     depends_on:
       - kafka
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    restart: on-failure
+    ports:
+      - "3000:80"
+    depends_on:
+      - user-service
+      - product-service
+      - order-service
 
   notification-service:
     build: ./notification-service
