@@ -20,7 +20,7 @@ const Orders = () => {
       }
       try {
         // Attempt to fetch from order-service
-        const response = await axios.get('http://localhost:8083/api/orders', {
+        const response = await axios.get(`${import.meta.env.VITE_ORDER_SERVICE_URL || 'http://localhost:8083'}/api/orders`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setOrders(response.data);

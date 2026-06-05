@@ -29,7 +29,7 @@ const Cart = () => {
 
     try {
       for (const item of cartItems) {
-        await axios.post('http://localhost:8083/api/orders', {
+        await axios.post(`${import.meta.env.VITE_ORDER_SERVICE_URL || 'http://localhost:8083'}/api/orders`, {
           userId: 1, // Ideally decoded from JWT, but hardcoded to 1 for this demo
           productId: item.productId,
           quantity: item.quantity

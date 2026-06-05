@@ -22,7 +22,7 @@ const Home = () => {
             ? { Authorization: `Bearer ${token}` } 
             : {};
         
-        const response = await axios.get('http://localhost:8082/api/products', { headers });
+        const response = await axios.get(`${import.meta.env.VITE_PRODUCT_SERVICE_URL || 'http://localhost:8082'}/api/products`, { headers });
         setProducts(response.data);
         setLoading(false);
       } catch (err) {

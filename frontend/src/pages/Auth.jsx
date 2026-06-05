@@ -22,7 +22,7 @@ const Auth = () => {
     try {
       if (isLogin) {
         // Login
-        const res = await axios.post('http://localhost:8081/api/auth/login', {
+        const res = await axios.post(`${import.meta.env.VITE_USER_SERVICE_URL || 'http://localhost:8081'}/api/auth/login`, {
           identifier: formData.identifier,
           password: formData.password
         });
@@ -30,7 +30,7 @@ const Auth = () => {
         navigate('/');
       } else {
         // Register
-        await axios.post('http://localhost:8081/api/auth/register', {
+        await axios.post(`${import.meta.env.VITE_USER_SERVICE_URL || 'http://localhost:8081'}/api/auth/register`, {
           name: formData.name,
           email: formData.email,
           mobileNumber: formData.mobileNumber || null,
