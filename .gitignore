@@ -49,3 +49,9 @@ docker-compose.override.yml
 docs/Interview-Questions.md
 archive/
 updateLogs.md
+
+# Sensitive Certificates and Keys
+**/certs/*
+*.pem
+*.key
+*.cert

@@ -6,11 +6,28 @@ echo.
 echo Checking if Docker is running...
 docker info >nul 2>&1
 if %errorlevel% neq 0 (
-    echo [ERROR] Docker is not running or not installed.
-    echo Please start Docker Desktop and try again.
+    echo [INFO] Docker is not running. Attempting to start Docker Desktop...
+    start "" "C:\Program Files\Docker\Docker\Docker Desktop.exe"
+    echo Waiting for 15 seconds for Docker to initialize...
+    timeout /t 15 /nobreak
+    
+    echo Re-checking Docker status...
+    call :CHECK_DOCKER_AGAIN
+)
+
+goto :START_SERVICES
+
+:CHECK_DOCKER_AGAIN
+docker info >nul 2>&1
+if errorlevel 1 (
+    echo [ERROR] Docker failed to start or is not installed in the default location.
+    echo Please start Docker Desktop manually and try again.
     pause
     exit /b 1
 )
+exit /b 0
+
+:START_SERVICES
 
 echo.
 echo Starting all microservices, databases, and frontend...
@@ -32,6 +49,11 @@ echo  SUCCESS! All services are up and running!
 echo =======================================================
 echo.
 echo  Website: http://localhost:3000
+echo.
+echo  Swagger UI Links:
+echo  - Product Service: http://localhost:8082/swagger-ui/index.html
+echo  - Order Service: http://localhost:8083/swagger-ui/index.html
+echo  - Inventory Service: http://localhost:8084/swagger-ui/index.html
 echo.
 
 :MENU
