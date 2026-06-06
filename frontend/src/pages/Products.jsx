@@ -86,32 +86,104 @@ const Products = () => {
 
   return (
     <div className="products-page container">
-      <div className="products-header">
-        <h2>{pageTitle}</h2>
-        <p>{filteredProducts.length} items found</p>
+      {/* Breadcrumbs */}
+      <div className="breadcrumbs">
+        <Link to="/">Home</Link> / <span>{pageTitle}</span>
       </div>
 
-      {loading ? (
-        <div className="loading-spinner">Loading products...</div>
-      ) : error ? (
-        <div className="error-message">{error}</div>
-      ) : filteredProducts.length > 0 ? (
-        <div className="product-grid">
-          {filteredProducts.map(product => (
-            <ProductCard 
-              key={product.id} 
-              product={product} 
-              onAddToCart={handleAddToCart}
-            />
-          ))}
+      <div className="products-layout">
+        {/* Sidebar */}
+        <aside className="products-sidebar">
+          <div className="sidebar-header">
+            <h3>FILTERS</h3>
+            <button className="clear-filters">CLEAR ALL</button>
+          </div>
+
+          <div className="filter-group">
+            <h4>GENDER</h4>
+            <label><input type="radio" name="gender" value="men" /> Men</label>
+            <label><input type="radio" name="gender" value="women" /> Women</label>
+            <label><input type="radio" name="gender" value="boys" /> Boys</label>
+            <label><input type="radio" name="gender" value="girls" /> Girls</label>
+          </div>
+
+          <div className="filter-group">
+            <h4>CATEGORIES</h4>
+            <label><input type="checkbox" value="shirts" /> Shirts (650)</label>
+            <label><input type="checkbox" value="tshirts" /> Tshirts (551)</label>
+            <label><input type="checkbox" value="trousers" /> Trousers (201)</label>
+            <label><input type="checkbox" value="jeans" /> Jeans (184)</label>
+            <label><input type="checkbox" value="casual-shoes" /> Casual Shoes (99)</label>
+          </div>
+
+          <div className="filter-group">
+            <h4>BRAND</h4>
+            <label><input type="checkbox" value="roadster" /> Roadster</label>
+            <label><input type="checkbox" value="highlander" /> HIGHLANDER</label>
+            <label><input type="checkbox" value="hrx" /> HRX by Hrithik</label>
+            <label><input type="checkbox" value="uspa" /> U.S. Polo Assn.</label>
+          </div>
+
+          <div className="filter-group">
+            <h4>DISCOUNT RANGE</h4>
+            <label><input type="radio" name="discount" value="10" /> 10% and above</label>
+            <label><input type="radio" name="discount" value="20" /> 20% and above</label>
+            <label><input type="radio" name="discount" value="30" /> 30% and above</label>
+            <label><input type="radio" name="discount" value="40" /> 40% and above</label>
+            <label><input type="radio" name="discount" value="50" /> 50% and above</label>
+          </div>
+        </aside>
+
+        {/* Main Content Area */}
+        <div className="products-main">
+          <div className="products-topbar">
+            <div className="item-count">
+              <strong>{pageTitle}</strong> - {filteredProducts.length} items
+            </div>
+            <div className="sort-by">
+              <label>Sort by : </label>
+              <select>
+                <option value="recommended">Recommended</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="rating">Customer Rating</option>
+              </select>
+            </div>
+          </div>
+
+          {loading ? (
+            <div className="loading-spinner">Loading products...</div>
+          ) : error ? (
+            <div className="error-message">{error}</div>
+          ) : filteredProducts.length > 0 ? (
+            <>
+              <div className="product-grid">
+                {filteredProducts.map(product => (
+                  <ProductCard 
+                    key={product.id} 
+                    product={product} 
+                    onAddToCart={handleAddToCart}
+                  />
+                ))}
+              </div>
+              
+              {/* Pagination */}
+              <div className="pagination">
+                <button className="page-btn" disabled>&lt;&lt; Page 1</button>
+                <button className="page-btn" disabled>&lt; Previous</button>
+                <span className="page-info">Page 1 of 1</span>
+                <button className="page-btn" disabled>Next &gt;</button>
+              </div>
+            </>
+          ) : (
+            <div className="empty-state">
+              <h3>No products found</h3>
+              <p>Try adjusting your search or category.</p>
+              <Link to="/" className="btn btn-primary">Back to Home</Link>
+            </div>
+          )}
         </div>
-      ) : (
-        <div className="empty-state">
-          <h3>No products found</h3>
-          <p>Try adjusting your search or category.</p>
-          <Link to="/" className="btn btn-primary">Back to Home</Link>
-        </div>
-      )}
+      </div>
     </div>
   );
 };

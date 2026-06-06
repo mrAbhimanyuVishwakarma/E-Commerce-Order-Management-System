@@ -1,13 +1,24 @@
 .product-card {
-  background: #ffffff;
-  border-radius: 12px;
+  background-color: var(--surface-color);
+  border-radius: var(--radius);
   overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-sm);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  position: relative;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  position: relative;
+}
+
+.product-link {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.product-link:hover .product-image {
+  transform: scale(1.05);
 }
 
 .product-card:hover {

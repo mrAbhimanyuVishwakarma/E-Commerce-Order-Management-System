@@ -1,0 +1,270 @@
+.product-detail-page {
+  padding-top: 2rem;
+  padding-bottom: 5rem;
+}
+
+.pdp-layout {
+  display: flex;
+  gap: 40px;
+  margin-top: 20px;
+}
+
+.pdp-images {
+  flex: 1.2;
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.main-image {
+  width: calc(50% - 7.5px);
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.main-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.main-image:hover img {
+  transform: scale(1.05);
+}
+
+.pdp-details {
+  flex: 1;
+  padding: 0 20px;
+}
+
+.pdp-brand {
+  font-size: 24px;
+  font-weight: 700;
+  color: #282c3f;
+  margin-bottom: 5px;
+}
+
+.pdp-title {
+  font-size: 20px;
+  color: #535665;
+  font-weight: 400;
+  margin-bottom: 15px;
+}
+
+.pdp-rating {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #eaeaec;
+  padding: 5px 10px;
+  border-radius: 2px;
+  margin-bottom: 20px;
+}
+
+.rating-stars {
+  font-weight: 700;
+  color: #14958f;
+  margin-right: 5px;
+}
+
+.rating-count {
+  color: #535665;
+  font-size: 14px;
+}
+
+.pdp-pricing {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 5px;
+}
+
+.pdp-pricing .current-price {
+  font-size: 24px;
+  font-weight: 700;
+  color: #282c3f;
+}
+
+.pdp-pricing .original-price {
+  font-size: 20px;
+  color: #7e818c;
+  text-decoration: line-through;
+}
+
+.pdp-pricing .discount {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ff905a;
+}
+
+.tax-inclusive {
+  font-size: 14px;
+  color: #03a685;
+  font-weight: 700;
+  margin-bottom: 25px;
+}
+
+.pdp-colors h4, .size-header h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #282c3f;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+}
+
+.color-thumbnails {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.color-thumb {
+  width: 50px;
+  height: 65px;
+  border: 1px solid #eaeaec;
+  border-radius: 2px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.color-thumb:hover {
+  border-color: #ff3f6c;
+}
+
+.color-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.size-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.size-chart-link {
+  color: #ff3f6c;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.size-options {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 35px;
+}
+
+.size-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid #bfc0c6;
+  background: white;
+  color: #282c3f;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.size-btn:hover {
+  border-color: #ff3f6c;
+}
+
+.size-btn.selected {
+  border-color: #ff3f6c;
+  color: #ff3f6c;
+  background-color: #fff9fa;
+}
+
+.pdp-actions {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.btn-add-to-bag {
+  flex: 2;
+  background-color: #ff3f6c;
+  color: white;
+  border: none;
+  padding: 15px 0;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 12px rgba(255, 63, 108, 0.2);
+  transition: background-color 0.2s;
+}
+
+.btn-add-to-bag:hover {
+  background-color: #ff527b;
+}
+
+.btn-wishlist {
+  flex: 1;
+  background-color: white;
+  color: #282c3f;
+  border: 1px solid #d4d5d9;
+  padding: 15px 0;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  transition: border-color 0.2s;
+}
+
+.btn-wishlist:hover {
+  border-color: #282c3f;
+}
+
+.pdp-description h4 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #282c3f;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eaeaec;
+}
+
+.pdp-description p {
+  font-size: 16px;
+  color: #282c3f;
+  line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+  .pdp-layout {
+    flex-direction: column;
+  }
+  
+  .pdp-images {
+    flex: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .main-image {
+    width: 100%;
+  }
+  
+  .pdp-actions {
+    flex-direction: column;
+  }
+}
