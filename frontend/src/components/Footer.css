@@ -118,6 +118,10 @@
 }
 
 @media (max-width: 768px) {
+  .footer-container {
+    padding-bottom: 70px; /* Space for MobileNav */
+  }
+
   .footer-content {
     flex-direction: column;
   }

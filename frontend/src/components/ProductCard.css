@@ -160,3 +160,34 @@
 .product-actions {
   padding: 0 1rem 1rem 1rem;
 }
+
+@media (max-width: 768px) {
+  .product-info {
+    padding: 0.6rem;
+  }
+
+  .product-title {
+    font-size: 0.9rem;
+  }
+
+  .current-price {
+    font-size: 1rem;
+  }
+
+  .original-price, .discount {
+    font-size: 0.75rem;
+  }
+
+  .offer-text {
+    font-size: 0.7rem;
+  }
+
+  .add-to-cart-btn {
+    padding: 0.6rem;
+    font-size: 0.85rem;
+  }
+
+  .product-actions {
+    padding: 0 0.6rem 0.6rem 0.6rem;
+  }
+}

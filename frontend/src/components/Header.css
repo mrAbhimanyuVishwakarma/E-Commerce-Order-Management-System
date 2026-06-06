@@ -100,3 +100,19 @@
 .nav-link:hover {
   color: #ffffff;
 }
+
+/* Mobile Responsive Adjustments */
+@media (max-width: 768px) {
+  .header-bottom {
+    display: none; /* Hide desktop category links on mobile */
+  }
+
+  .header-actions {
+    display: none; /* Hide desktop action buttons, moved to MobileNav */
+  }
+
+  .search-bar {
+    width: 60%; /* Expand search bar on mobile */
+    margin-left: 10px;
+  }
+}

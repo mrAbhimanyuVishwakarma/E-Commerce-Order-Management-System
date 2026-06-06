@@ -14,6 +14,7 @@ const Products = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const { showToast } = useToast();
 
   useEffect(() => {
@@ -92,8 +93,12 @@ const Products = () => {
       </div>
 
       <div className="products-layout">
+        <div className="mobile-filter-toggle" onClick={() => setIsFilterOpen(!isFilterOpen)}>
+          <span className="filter-icon">⚙️</span> {isFilterOpen ? 'Hide Filters' : 'Show Filters'}
+        </div>
+
         {/* Sidebar */}
-        <aside className="products-sidebar">
+        <aside className={`products-sidebar ${isFilterOpen ? 'mobile-open' : ''}`}>
           <div className="sidebar-header">
             <h3>FILTERS</h3>
             <button className="clear-filters">CLEAR ALL</button>

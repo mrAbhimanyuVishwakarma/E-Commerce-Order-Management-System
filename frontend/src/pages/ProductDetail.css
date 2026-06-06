@@ -260,11 +260,32 @@
 }
 
 @media (max-width: 600px) {
+  .product-detail-page {
+    padding-bottom: 120px; /* Space for the fixed action buttons and MobileNav */
+  }
+
   .main-image {
     width: 100%;
   }
   
   .pdp-actions {
-    flex-direction: column;
+    position: fixed;
+    bottom: 60px; /* Above the 60px MobileNav */
+    left: 0;
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+    background: var(--bg-primary);
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    gap: 10px;
+  }
+
+  .btn-add-to-bag {
+    padding: 12px 0;
+  }
+
+  .btn-wishlist {
+    padding: 12px 0;
   }
 }
