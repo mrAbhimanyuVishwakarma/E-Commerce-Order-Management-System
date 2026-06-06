@@ -35,4 +35,13 @@ public class User {
 
     @Column(nullable = false)
     private String role; // "ADMIN" or "CUSTOMER"
+
+    @Column(nullable = true)
+    private String otpCode;
+
+    @Column(nullable = true)
+    private java.time.LocalDateTime otpExpiry;
+
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean isVerified;
 }
