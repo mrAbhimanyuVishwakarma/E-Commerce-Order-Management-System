@@ -1,8 +1,8 @@
 .footer-container {
-  background-color: #fafbfc;
+  background-color: var(--bg-secondary);
   border-top: 1px solid #eaeaec;
   padding-top: 40px;
-  color: #282c3f;
+  color: var(--text-primary);
   font-family: inherit;
   margin-top: 50px;
 }
@@ -29,7 +29,7 @@
   font-size: 12px;
   font-weight: 700;
   margin-bottom: 25px;
-  color: #282c3f;
+  color: var(--text-primary);
 }
 
 .footer-column ul {
@@ -50,7 +50,7 @@
 }
 
 .footer-column ul li a:hover {
-  color: #282c3f;
+  color: var(--text-primary);
   font-weight: 600;
 }
 
@@ -74,7 +74,7 @@
 }
 
 .social-icons a {
-  color: #282c3f;
+  color: var(--text-primary);
   text-decoration: none;
   font-weight: bold;
 }

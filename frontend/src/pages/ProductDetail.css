@@ -42,7 +42,7 @@
 .pdp-brand {
   font-size: 24px;
   font-weight: 700;
-  color: #282c3f;
+  color: var(--text-primary);
   margin-bottom: 5px;
 }
 
@@ -83,7 +83,7 @@
 .pdp-pricing .current-price {
   font-size: 24px;
   font-weight: 700;
-  color: #282c3f;
+  color: var(--text-primary);
 }
 
 .pdp-pricing .original-price {
@@ -108,7 +108,7 @@
 .pdp-colors h4, .size-header h4 {
   font-size: 14px;
   font-weight: 700;
-  color: #282c3f;
+  color: var(--text-primary);
   margin-bottom: 15px;
   text-transform: uppercase;
 }
@@ -164,8 +164,8 @@
   height: 50px;
   border-radius: 50%;
   border: 1px solid #bfc0c6;
-  background: white;
-  color: #282c3f;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
@@ -215,8 +215,8 @@
 
 .btn-wishlist {
   flex: 1;
-  background-color: white;
-  color: #282c3f;
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
   border: 1px solid #d4d5d9;
   padding: 15px 0;
   font-size: 14px;
@@ -231,13 +231,13 @@
 }
 
 .btn-wishlist:hover {
-  border-color: #282c3f;
+  border-color: var(--text-primary);
 }
 
 .pdp-description h4 {
   font-size: 16px;
   font-weight: 700;
-  color: #282c3f;
+  color: var(--text-primary);
   margin-bottom: 15px;
   padding-bottom: 15px;
   border-bottom: 1px solid #eaeaec;
@@ -245,7 +245,7 @@
 
 .pdp-description p {
   font-size: 16px;
-  color: #282c3f;
+  color: var(--text-primary);
   line-height: 1.6;
 }
 

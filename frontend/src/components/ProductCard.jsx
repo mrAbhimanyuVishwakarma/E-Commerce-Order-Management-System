@@ -27,6 +27,15 @@ const ProductCard = ({ product, onAddToCart }) => {
         </div>
       </Link>
       
+      <div className="product-actions">
+        <div className="offer-text">
+          <span className="check-icon">✓</span> Get it for ${(product.price * 0.8).toFixed(2)} with FLAT20
+        </div>
+        
+        <button className="add-to-cart-btn" onClick={() => onAddToCart(product)}>
+          <span className="cart-icon">🛍️</span> ADD TO CART
+        </button>
+      </div>
     </div>
   );
 };
