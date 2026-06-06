@@ -1,5 +1,5 @@
 .auth-page {
-  min-height: 100vh;
+  min-height: calc(100vh - 110px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -7,7 +7,6 @@
   background-size: cover;
   background-position: center;
   padding: 2rem;
-  padding-top: 100px;
 }
 
 .auth-container {

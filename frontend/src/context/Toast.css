@@ -26,8 +26,19 @@
   border-left: 4px solid #4CAF50;
 }
 
-.toast-icon {
+.toast-success .toast-icon {
   background-color: #4CAF50;
+}
+
+.toast-error {
+  border-left: 4px solid #f44336;
+}
+
+.toast-error .toast-icon {
+  background-color: #f44336;
+}
+
+.toast-icon {
   color: white;
   width: 24px;
   height: 24px;

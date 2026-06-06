@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import { useNavigate } from 'react-router-dom';
 import './Cart.css';
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const { token } = useContext(AuthContext);
+  const { showToast } = useToast();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,7 +24,7 @@ const Cart = () => {
 
   const handleCheckout = async () => {
     if (!token) {
-      alert("Please login to place an order.");
+      showToast("Please login to place an order.", 'error');
       navigate('/auth');
       return;
     }
@@ -38,13 +40,13 @@ const Cart = () => {
         });
       }
       
-      alert("Order placed successfully! Check backend logs for Kafka events.");
+      showToast("Order placed successfully! Check backend logs for Kafka events.", 'success');
       setCartItems([]);
       localStorage.removeItem('cart');
       navigate('/');
     } catch (err) {
       console.error(err);
-      alert("Checkout failed. Ensure you are logged in and backend is running.");
+      showToast("Checkout failed. Ensure you are logged in and backend is running.", 'error');
     }
   };
 

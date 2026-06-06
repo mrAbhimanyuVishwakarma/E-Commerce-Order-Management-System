@@ -49,6 +49,11 @@ body {
   transition: var(--transition);
 }
 
+main {
+  padding-top: 110px; /* Accounts for the fixed header */
+  min-height: calc(100vh - 110px);
+}
+
 a {
   text-decoration: none;
   color: inherit;

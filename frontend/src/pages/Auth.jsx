@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import './Auth.css';
 
 const Auth = () => {
@@ -9,6 +10,7 @@ const Auth = () => {
   const [formData, setFormData] = useState({ name: '', email: '', mobileNumber: '', password: '', identifier: '' });
   const [error, setError] = useState('');
   const { login } = useContext(AuthContext);
+  const { showToast } = useToast();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -27,6 +29,7 @@ const Auth = () => {
           password: formData.password
         });
         login(res.data);
+        showToast("Successfully logged in!", "success");
         navigate('/');
       } else {
         // Register
@@ -39,7 +42,7 @@ const Auth = () => {
         });
         // Auto switch to login
         setIsLogin(true);
-        alert("Registration successful! Please login.");
+        showToast("Registration successful! Please login.", "success");
       }
     } catch (err) {
       console.error(err);
