@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import HeroBanner from '../components/HeroBanner';
 import ProductCard from '../components/ProductCard';
+import { useToast } from '../context/ToastContext';
 import './Home.css';
 
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { showToast } = useToast();
 
   useEffect(() => {
     // Fetch products from Product Service (port 8082)
@@ -47,7 +49,7 @@ const Home = () => {
     }
     
     localStorage.setItem('cart', JSON.stringify(currentCart));
-    alert(`${product.name} added to cart!`);
+    showToast(`${product.name} added to cart!`, 'success');
   };
 
   return (

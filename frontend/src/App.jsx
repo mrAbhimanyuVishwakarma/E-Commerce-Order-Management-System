@@ -9,24 +9,28 @@ import Products from './pages/Products';
 import Orders from './pages/Orders';
 import './index.css';
 
+import { ToastProvider } from './context/ToastContext';
+
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <div className="App">
-          <Header />
-          <main>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/category/:categoryId" element={<Products />} />
-              <Route path="/search" element={<Products />} />
-              <Route path="/orders" element={<Orders />} />
-            </Routes>
-          </main>
-        </div>
-      </Router>
+      <ToastProvider>
+        <Router>
+          <div className="App">
+            <Header />
+            <main>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/auth" element={<Auth />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/category/:categoryId" element={<Products />} />
+                <Route path="/search" element={<Products />} />
+                <Route path="/orders" element={<Orders />} />
+              </Routes>
+            </main>
+          </div>
+        </Router>
+      </ToastProvider>
     </AuthProvider>
   );
 }

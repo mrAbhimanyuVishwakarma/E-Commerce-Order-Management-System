@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useSearchParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import ProductCard from '../components/ProductCard';
+import { useToast } from '../context/ToastContext';
 import './Products.css';
 
 const Products = () => {
@@ -13,6 +14,7 @@ const Products = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { showToast } = useToast();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -76,7 +78,7 @@ const Products = () => {
     }
     
     localStorage.setItem('cart', JSON.stringify(currentCart));
-    alert(`${product.name} added to cart!`);
+    showToast(`${product.name} added to cart!`, 'success');
   };
 
   const pageTitle = searchQuery ? `Search Results for "${searchQuery}"` : 
