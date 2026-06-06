@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ShoppingBag, User, Search, Truck } from 'lucide-react';
+import { ShoppingBag, User, Search, Truck, PlusCircle } from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
 import './Header.css';
 
@@ -39,9 +39,14 @@ const Header = () => {
               <Truck size={20} />
             </Link>
             {token ? (
-              <button onClick={logout} className="action-btn" title="Logout">
-                <User size={20} /> {/* Ideally a profile dropdown, just logging out for now */}
-              </button>
+              <>
+                <Link to="/add-product" className="action-btn" title="Add Product">
+                  <PlusCircle size={20} />
+                </Link>
+                <button onClick={logout} className="action-btn" title="Logout">
+                  <User size={20} /> {/* Ideally a profile dropdown, just logging out for now */}
+                </button>
+              </>
             ) : (
               <Link to="/auth" className="action-btn" title="Login">
                 <User size={20} />

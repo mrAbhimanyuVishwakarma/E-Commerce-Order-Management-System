@@ -7,6 +7,7 @@ import Auth from './pages/Auth';
 import Cart from './pages/Cart';
 import Products from './pages/Products';
 import Orders from './pages/Orders';
+import AddProduct from './pages/AddProduct';
 import './index.css';
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
               <Route path="/category/:categoryId" element={<Products />} />
               <Route path="/search" element={<Products />} />
               <Route path="/orders" element={<Orders />} />
+              <Route path="/add-product" element={<AddProduct />} />
             </Routes>
           </main>
         </div>
