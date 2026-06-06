@@ -17,6 +17,12 @@ const Products = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const { showToast } = useToast();
 
+  // Filter States
+  const [selectedGender, setSelectedGender] = useState('');
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedBrands, setSelectedBrands] = useState([]);
+  const [sortOption, setSortOption] = useState('recommended');
+
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
@@ -40,7 +46,7 @@ const Products = () => {
   }, []);
 
   useEffect(() => {
-    let result = products;
+    let result = [...products];
 
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
@@ -57,16 +63,52 @@ const Products = () => {
       } else if (cat === 'accessories') {
         result = result.filter(p => p.name.toLowerCase().includes('watch') || p.name.toLowerCase().includes('sunglasses') || p.name.toLowerCase().includes('bag') || p.name.toLowerCase().includes('tote'));
       } else if (cat === 'sale' || cat === 'new-arrivals') {
-        // Just randomizing a bit for demo purposes, picking items under $50
         result = result.filter(p => p.price < 50);
       } else {
-        // Fallback for generic categories
         result = result.filter(p => p.name.toLowerCase().includes(cat) || (p.description && p.description.toLowerCase().includes(cat)));
       }
     }
 
+    // Apply Sidebar Gender Filter
+    if (selectedGender) {
+      if (selectedGender === 'men') {
+        result = result.filter(p => !p.name.toLowerCase().includes('women') && (p.name.toLowerCase().includes('men') || p.name.toLowerCase().includes('shirt') || p.name.toLowerCase().includes('jacket')));
+      } else if (selectedGender === 'women') {
+        result = result.filter(p => p.name.toLowerCase().includes('women') || p.name.toLowerCase().includes('dress') || p.name.toLowerCase().includes('blouse') || p.name.toLowerCase().includes('top'));
+      } else {
+         result = result.filter(p => p.name.toLowerCase().includes(selectedGender));
+      }
+    }
+
+    // Apply Sidebar Categories Filter
+    if (selectedCategories.length > 0) {
+      result = result.filter(p => 
+        selectedCategories.some(cat => 
+          p.name.toLowerCase().includes(cat.toLowerCase()) || 
+          (p.description && p.description.toLowerCase().includes(cat.toLowerCase()))
+        )
+      );
+    }
+
+    // Apply Sidebar Brands Filter
+    if (selectedBrands.length > 0) {
+      result = result.filter(p => 
+        selectedBrands.some(brand => 
+          p.name.toLowerCase().includes(brand.toLowerCase()) || 
+          (p.description && p.description.toLowerCase().includes(brand.toLowerCase()))
+        )
+      );
+    }
+
+    // Apply Sorting
+    if (sortOption === 'price-low') {
+      result.sort((a, b) => a.price - b.price);
+    } else if (sortOption === 'price-high') {
+      result.sort((a, b) => b.price - a.price);
+    }
+
     setFilteredProducts(result);
-  }, [products, categoryId, searchQuery]);
+  }, [products, categoryId, searchQuery, selectedGender, selectedCategories, selectedBrands, sortOption]);
 
   const handleAddToCart = (product) => {
     const currentCart = JSON.parse(localStorage.getItem('cart') || '[]');
@@ -82,12 +124,31 @@ const Products = () => {
     showToast(`${product.name} added to cart!`, 'success');
   };
 
+  const handleCategoryChange = (e) => {
+    const value = e.target.value;
+    setSelectedCategories(prev => 
+      e.target.checked ? [...prev, value] : prev.filter(c => c !== value)
+    );
+  };
+
+  const handleBrandChange = (e) => {
+    const value = e.target.value;
+    setSelectedBrands(prev => 
+      e.target.checked ? [...prev, value] : prev.filter(b => b !== value)
+    );
+  };
+
+  const clearAllFilters = () => {
+    setSelectedGender('');
+    setSelectedCategories([]);
+    setSelectedBrands([]);
+  };
+
   const pageTitle = searchQuery ? `Search Results for "${searchQuery}"` : 
                     categoryId ? categoryId.charAt(0).toUpperCase() + categoryId.slice(1).replace('-', ' ') : 'All Products';
 
   return (
     <div className="products-page container">
-      {/* Breadcrumbs */}
       <div className="breadcrumbs">
         <Link to="/">Home</Link> / <span>{pageTitle}</span>
       </div>
@@ -97,36 +158,35 @@ const Products = () => {
           <span className="filter-icon">⚙️</span> {isFilterOpen ? 'Hide Filters' : 'Show Filters'}
         </div>
 
-        {/* Sidebar */}
         <aside className={`products-sidebar ${isFilterOpen ? 'mobile-open' : ''}`}>
           <div className="sidebar-header">
             <h3>FILTERS</h3>
-            <button className="clear-filters">CLEAR ALL</button>
+            <button className="clear-filters" onClick={clearAllFilters}>CLEAR ALL</button>
           </div>
 
           <div className="filter-group">
             <h4>GENDER</h4>
-            <label><input type="radio" name="gender" value="men" /> Men</label>
-            <label><input type="radio" name="gender" value="women" /> Women</label>
-            <label><input type="radio" name="gender" value="boys" /> Boys</label>
-            <label><input type="radio" name="gender" value="girls" /> Girls</label>
+            <label><input type="radio" name="gender" value="men" checked={selectedGender === 'men'} onChange={(e) => setSelectedGender(e.target.value)} /> Men</label>
+            <label><input type="radio" name="gender" value="women" checked={selectedGender === 'women'} onChange={(e) => setSelectedGender(e.target.value)} /> Women</label>
+            <label><input type="radio" name="gender" value="boys" checked={selectedGender === 'boys'} onChange={(e) => setSelectedGender(e.target.value)} /> Boys</label>
+            <label><input type="radio" name="gender" value="girls" checked={selectedGender === 'girls'} onChange={(e) => setSelectedGender(e.target.value)} /> Girls</label>
           </div>
 
           <div className="filter-group">
             <h4>CATEGORIES</h4>
-            <label><input type="checkbox" value="shirts" /> Shirts (650)</label>
-            <label><input type="checkbox" value="tshirts" /> Tshirts (551)</label>
-            <label><input type="checkbox" value="trousers" /> Trousers (201)</label>
-            <label><input type="checkbox" value="jeans" /> Jeans (184)</label>
-            <label><input type="checkbox" value="casual-shoes" /> Casual Shoes (99)</label>
+            <label><input type="checkbox" value="shirt" checked={selectedCategories.includes('shirt')} onChange={handleCategoryChange} /> Shirts (650)</label>
+            <label><input type="checkbox" value="tshirt" checked={selectedCategories.includes('tshirt')} onChange={handleCategoryChange} /> Tshirts (551)</label>
+            <label><input type="checkbox" value="trouser" checked={selectedCategories.includes('trouser')} onChange={handleCategoryChange} /> Trousers (201)</label>
+            <label><input type="checkbox" value="jeans" checked={selectedCategories.includes('jeans')} onChange={handleCategoryChange} /> Jeans (184)</label>
+            <label><input type="checkbox" value="shoe" checked={selectedCategories.includes('shoe')} onChange={handleCategoryChange} /> Casual Shoes (99)</label>
           </div>
 
           <div className="filter-group">
             <h4>BRAND</h4>
-            <label><input type="checkbox" value="roadster" /> Roadster</label>
-            <label><input type="checkbox" value="highlander" /> HIGHLANDER</label>
-            <label><input type="checkbox" value="hrx" /> HRX by Hrithik</label>
-            <label><input type="checkbox" value="uspa" /> U.S. Polo Assn.</label>
+            <label><input type="checkbox" value="roadster" checked={selectedBrands.includes('roadster')} onChange={handleBrandChange} /> Roadster</label>
+            <label><input type="checkbox" value="highlander" checked={selectedBrands.includes('highlander')} onChange={handleBrandChange} /> HIGHLANDER</label>
+            <label><input type="checkbox" value="hrx" checked={selectedBrands.includes('hrx')} onChange={handleBrandChange} /> HRX by Hrithik</label>
+            <label><input type="checkbox" value="polo" checked={selectedBrands.includes('polo')} onChange={handleBrandChange} /> U.S. Polo Assn.</label>
           </div>
 
           <div className="filter-group">
@@ -139,7 +199,6 @@ const Products = () => {
           </div>
         </aside>
 
-        {/* Main Content Area */}
         <div className="products-main">
           <div className="products-topbar">
             <div className="item-count">
@@ -147,7 +206,7 @@ const Products = () => {
             </div>
             <div className="sort-by">
               <label>Sort by : </label>
-              <select>
+              <select value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
                 <option value="recommended">Recommended</option>
                 <option value="price-low">Price: Low to High</option>
                 <option value="price-high">Price: High to Low</option>
