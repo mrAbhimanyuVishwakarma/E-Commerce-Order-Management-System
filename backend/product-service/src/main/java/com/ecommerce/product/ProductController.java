@@ -6,11 +6,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * ProductController
- * Explaining design decision: This controller exposes the RESTful APIs for products.
- * In Phase 2, we will secure the write operations to require the ADMIN role.
- */
 @RestController
 @RequestMapping("/api/products")
 @RequiredArgsConstructor
@@ -21,6 +16,16 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<List<Product>> getAllProducts() {
         return ResponseEntity.ok(productService.getAllProducts());
+    }
+
+    @GetMapping("/create-test")
+    public ResponseEntity<Product> createTestProduct() {
+        Product p = new Product();
+        p.setName("Test Product");
+        p.setDescription("Test Description");
+        p.setPrice(9.99);
+        p.setStock(10);
+        return ResponseEntity.ok(productService.createProduct(p));
     }
 
     @GetMapping("/{id}")
