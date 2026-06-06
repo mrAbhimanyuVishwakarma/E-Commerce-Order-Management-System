@@ -27,8 +27,9 @@ public class OrderService {
 
     private static final String ORDER_TOPIC = "order-created";
     
-    // In production, these would use a discovery server (Eureka) and FeignClient
-    private final String productServiceUrl = "http://localhost:8082/api/products/";
+    @org.springframework.beans.factory.annotation.Value("${product.service.url:http://localhost:8082/api/products/}")
+    private String productServiceUrl;
+    
     // Assuming auth is handled gracefully or bypassed for internal calls in this demo
     // We would ideally pass the JWT token in headers for internal calls.
 

@@ -65,6 +65,7 @@ services:
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/ecommerce_order_db?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:29092
+      - PRODUCT_SERVICE_URL=http://product-service:8082/api/products/
     depends_on:
       - mysql
       - kafka
