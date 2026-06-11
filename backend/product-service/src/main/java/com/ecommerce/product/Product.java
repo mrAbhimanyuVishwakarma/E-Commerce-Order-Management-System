@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "products")
 @Data
@@ -21,9 +23,13 @@ public class Product {
 
     private String description;
 
-    @Column(nullable = false)
-    private Double price;
+    @Column(nullable = false, precision = 19, scale = 2)
+    private BigDecimal price;
 
+    /**
+     * @deprecated Stock is now managed by the Inventory Service.
+     */
+    @Deprecated
     @Column(nullable = false)
     private Integer stock;
 }

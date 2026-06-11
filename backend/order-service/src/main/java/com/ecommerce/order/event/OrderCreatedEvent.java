@@ -3,6 +3,7 @@ package com.ecommerce.order.event;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -10,7 +11,14 @@ import lombok.NoArgsConstructor;
 public class OrderCreatedEvent {
     private Long orderId;
     private Long userId;
-    private Long productId;
-    private Integer quantity;
+    private List<OrderItemDto> items;
     private String userEmail;
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class OrderItemDto {
+        private Long productId;
+        private Integer quantity;
+    }
 }

@@ -1,8 +1,8 @@
 package com.ecommerce.order;
 
+import com.ecommerce.order.dto.OrderItemRequestDto;
 import com.ecommerce.order.dto.OrderRequestDto;
 import com.ecommerce.order.dto.ProductDto;
-import com.ecommerce.order.dto.UserDto;
 import com.ecommerce.order.event.OrderCreatedEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -10,13 +10,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-/**
- * OrderService
- * Explaining design decision: In Phase 4, OrderService uses RestTemplate to communicate with
- * other microservices (user-service, product-service) to validate the order, and Kafka for async events.
- */
 @Service
 @RequiredArgsConstructor
 public class OrderService {
@@ -30,36 +28,69 @@ public class OrderService {
     @org.springframework.beans.factory.annotation.Value("${product.service.url:http://localhost:8082/api/products/}")
     private String productServiceUrl;
     
-    // Assuming auth is handled gracefully or bypassed for internal calls in this demo
-    // We would ideally pass the JWT token in headers for internal calls.
-
     @Transactional
     public Order createOrder(OrderRequestDto requestDto) {
-        // 1. Fetch Product
-        ProductDto product = restTemplate.getForObject(productServiceUrl + requestDto.getProductId(), ProductDto.class);
-        if (product == null) {
-            throw new RuntimeException("Product not found");
+        // Fallback for backward compatibility
+        List<OrderItemRequestDto> requestItems = requestDto.getItems();
+        if (requestItems == null || requestItems.isEmpty()) {
+            if (requestDto.getProductId() != null && requestDto.getQuantity() != null) {
+                OrderItemRequestDto item = new OrderItemRequestDto();
+                item.setProductId(requestDto.getProductId());
+                item.setQuantity(requestDto.getQuantity());
+                requestItems = List.of(item);
+            } else {
+                throw new IllegalArgumentException("Order must contain at least one item");
+            }
         }
 
-        // 2. Mock User info for now since we don't have token propagation setup
-        // In a real microservices scenario with JWT, we decode it from SecurityContext.
+        // Mock User info for now since token propagation setup belongs to the security phase
+        // TODO: Extract userId from JWT SecurityContext.
         Long userId = requestDto.getUserId();
-        String userEmail = "customer@example.com"; // Mocked for simplicity in this step
+        String userEmail = "customer@example.com"; 
 
-        // 3. Calculate amount and save order
-        Double totalAmount = product.getPrice() * requestDto.getQuantity();
         Order order = new Order();
         order.setUserId(userId);
+        order.setStatus(OrderStatus.PENDING);
+        
+        BigDecimal totalAmount = BigDecimal.ZERO;
+        List<OrderItem> items = new ArrayList<>();
+        List<OrderCreatedEvent.OrderItemDto> eventItems = new ArrayList<>();
+
+        for (OrderItemRequestDto itemReq : requestItems) {
+            if (itemReq.getQuantity() <= 0) {
+                throw new IllegalArgumentException("Quantity must be greater than zero");
+            }
+            
+            ProductDto product = restTemplate.getForObject(productServiceUrl + itemReq.getProductId(), ProductDto.class);
+            if (product == null) {
+                throw new RuntimeException("Product not found with ID: " + itemReq.getProductId());
+            }
+
+            BigDecimal subtotal = product.getPrice().multiply(new BigDecimal(itemReq.getQuantity()));
+            totalAmount = totalAmount.add(subtotal);
+
+            OrderItem orderItem = new OrderItem();
+            orderItem.setOrder(order);
+            orderItem.setProductId(product.getId());
+            orderItem.setProductName(product.getName());
+            orderItem.setUnitPrice(product.getPrice());
+            orderItem.setQuantity(itemReq.getQuantity());
+            orderItem.setSubtotal(subtotal);
+            
+            items.add(orderItem);
+            eventItems.add(new OrderCreatedEvent.OrderItemDto(product.getId(), itemReq.getQuantity()));
+        }
+
+        order.setItems(items);
         order.setTotalAmount(totalAmount);
-        order.setStatus("COMPLETED");
+        
         Order savedOrder = orderRepository.save(order);
 
-        // 4. Publish Event to Kafka
+        // Publish Event to Kafka
         OrderCreatedEvent event = new OrderCreatedEvent(
                 savedOrder.getId(),
                 userId,
-                product.getId(),
-                requestDto.getQuantity(),
+                eventItems,
                 userEmail
         );
         kafkaTemplate.send(ORDER_TOPIC, String.valueOf(savedOrder.getId()), event);

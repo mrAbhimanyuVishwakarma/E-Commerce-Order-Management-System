@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import java.math.BigDecimal;
+
 @RestController
 @RequestMapping("/api/products")
 @RequiredArgsConstructor
@@ -23,7 +25,7 @@ public class ProductController {
         Product p = new Product();
         p.setName("Test Product");
         p.setDescription("Test Description");
-        p.setPrice(9.99);
+        p.setPrice(new BigDecimal("9.99"));
         p.setStock(10);
         return ResponseEntity.ok(productService.createProduct(p));
     }
