@@ -116,3 +116,36 @@
     margin-left: 10px;
   }
 }
+
+/* Theme Toggle Button */
+.theme-toggle {
+  width: 36px;
+  height: 20px;
+  background-color: #ddd;
+  border-radius: 10px;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s ease;
+  margin-right: 0.5rem;
+}
+
+.theme-toggle.dark {
+  background-color: #555;
+}
+
+.toggle-thumb {
+  width: 14px;
+  height: 14px;
+  background-color: #111;
+  border-radius: 50%;
+  position: absolute;
+  left: 3px;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.theme-toggle.dark .toggle-thumb {
+  transform: translateX(16px);
+  background-color: #fff;
+}

@@ -12,13 +12,15 @@ import ProductDetail from './pages/ProductDetail';
 import Orders from './pages/Orders';
 import './index.css';
 
+import { ThemeProvider } from './context/ThemeContext';
 import { ToastProvider } from './context/ToastContext';
 
 function App() {
   return (
-    <AuthProvider>
-      <ToastProvider>
-        <Router>
+    <ThemeProvider>
+      <AuthProvider>
+        <ToastProvider>
+          <Router>
           <div className="App">
             <Header />
             <main>
@@ -38,6 +40,7 @@ function App() {
         </Router>
       </ToastProvider>
     </AuthProvider>
+    </ThemeProvider>
   );
 }
 
