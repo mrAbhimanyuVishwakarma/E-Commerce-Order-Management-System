@@ -3,9 +3,11 @@ package com.ecommerce.order;
 import com.ecommerce.order.dto.OrderItemRequestDto;
 import com.ecommerce.order.dto.OrderRequestDto;
 import com.ecommerce.order.dto.ProductDto;
-import com.ecommerce.order.event.OrderCreatedEvent;
+import com.ecommerce.event.InventoryReservationRequestedEvent;
+import com.ecommerce.event.OrderItemDto;
+import com.ecommerce.order.outbox.OutboxEventRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -21,9 +23,8 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final RestTemplate restTemplate;
-    private final KafkaTemplate<String, Object> kafkaTemplate;
-
-    private static final String ORDER_TOPIC = "order-created";
+    private final OutboxEventRepository outboxEventRepository;
+    private final ObjectMapper objectMapper;
     
     @org.springframework.beans.factory.annotation.Value("${product.service.url:http://localhost:8082/api/products/}")
     private String productServiceUrl;
@@ -54,7 +55,7 @@ public class OrderService {
         
         BigDecimal totalAmount = BigDecimal.ZERO;
         List<OrderItem> items = new ArrayList<>();
-        List<OrderCreatedEvent.OrderItemDto> eventItems = new ArrayList<>();
+        List<OrderItemDto> eventItems = new ArrayList<>();
 
         for (OrderItemRequestDto itemReq : requestItems) {
             if (itemReq.getQuantity() <= 0) {
@@ -78,7 +79,7 @@ public class OrderService {
             orderItem.setSubtotal(subtotal);
             
             items.add(orderItem);
-            eventItems.add(new OrderCreatedEvent.OrderItemDto(product.getId(), itemReq.getQuantity()));
+            eventItems.add(new OrderItemDto(product.getId(), itemReq.getQuantity(), product.getName(), product.getPrice(), subtotal));
         }
 
         order.setItems(items);
@@ -86,15 +87,28 @@ public class OrderService {
         
         Order savedOrder = orderRepository.save(order);
 
-        // Publish Event to Kafka
-        OrderCreatedEvent event = new OrderCreatedEvent(
-                savedOrder.getId(),
-                userId,
-                eventItems,
-                userEmail
-        );
-        kafkaTemplate.send(ORDER_TOPIC, String.valueOf(savedOrder.getId()), event);
-        System.out.println("Published order-created event for Order ID " + savedOrder.getId());
+        // Save Event to Outbox
+        InventoryReservationRequestedEvent event = new InventoryReservationRequestedEvent();
+        event.setEventId(java.util.UUID.randomUUID().toString());
+        event.setEventType("InventoryReservationRequestedEvent");
+        event.setEventVersion(1);
+        event.setCorrelationId(event.getEventId());
+        event.setOccurredAt(java.time.LocalDateTime.now());
+        event.setOrderId(savedOrder.getId());
+        event.setUserId(userId);
+        event.setItems(eventItems);
+
+        try {
+            com.ecommerce.order.outbox.OutboxEvent outboxEvent = new com.ecommerce.order.outbox.OutboxEvent();
+            outboxEvent.setEventId(event.getEventId());
+            outboxEvent.setEventType(event.getEventType());
+            outboxEvent.setPayload(objectMapper.writeValueAsString(event));
+            outboxEvent.setStatus("PENDING");
+            outboxEventRepository.save(outboxEvent);
+            System.out.println("Saved InventoryReservationRequestedEvent to outbox for Order ID " + savedOrder.getId());
+        } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
+            throw new RuntimeException("Failed to serialize outbox event", e);
+        }
 
         return savedOrder;
     }
@@ -105,5 +119,72 @@ public class OrderService {
 
     public Order getOrderById(Long id) {
         return orderRepository.findById(id).orElse(null);
+    }
+
+    @Transactional
+    public void confirmOrder(com.ecommerce.event.InventoryReservedEvent event) {
+        Order order = orderRepository.findById(event.getOrderId())
+                .orElseThrow(() -> new RuntimeException("Order not found: " + event.getOrderId()));
+        
+        if (order.getStatus() != OrderStatus.PENDING) {
+            return;
+        }
+        
+        order.setStatus(OrderStatus.CONFIRMED);
+        orderRepository.save(order);
+
+        com.ecommerce.event.OrderConfirmedEvent confirmedEvent = new com.ecommerce.event.OrderConfirmedEvent();
+        confirmedEvent.setEventId(java.util.UUID.randomUUID().toString());
+        confirmedEvent.setEventType("OrderConfirmedEvent");
+        confirmedEvent.setEventVersion(1);
+        confirmedEvent.setCorrelationId(event.getCorrelationId());
+        confirmedEvent.setOccurredAt(java.time.LocalDateTime.now());
+        confirmedEvent.setOrderId(order.getId());
+        confirmedEvent.setUserId(order.getUserId());
+        confirmedEvent.setTotalAmount(order.getTotalAmount());
+        confirmedEvent.setStatus(order.getStatus().name());
+        confirmedEvent.setItems(event.getItems());
+
+        saveOutboxEvent(confirmedEvent);
+    }
+
+    @Transactional
+    public void rejectOrder(com.ecommerce.event.InventoryRejectedEvent event) {
+        Order order = orderRepository.findById(event.getOrderId())
+                .orElseThrow(() -> new RuntimeException("Order not found: " + event.getOrderId()));
+        
+        if (order.getStatus() != OrderStatus.PENDING) {
+            return;
+        }
+
+        order.setStatus(OrderStatus.REJECTED); // Assumes you have a REJECTED or CANCELLED status. If not, maybe FAILED?
+        orderRepository.save(order);
+
+        com.ecommerce.event.OrderRejectedEvent rejectedEvent = new com.ecommerce.event.OrderRejectedEvent();
+        rejectedEvent.setEventId(java.util.UUID.randomUUID().toString());
+        rejectedEvent.setEventType("OrderRejectedEvent");
+        rejectedEvent.setEventVersion(1);
+        rejectedEvent.setCorrelationId(event.getCorrelationId());
+        rejectedEvent.setOccurredAt(java.time.LocalDateTime.now());
+        rejectedEvent.setOrderId(order.getId());
+        rejectedEvent.setUserId(order.getUserId());
+        rejectedEvent.setStatus(order.getStatus().name());
+        rejectedEvent.setReasonCode(event.getReasonCode());
+        rejectedEvent.setReasonMessage(event.getReasonMessage());
+
+        saveOutboxEvent(rejectedEvent);
+    }
+
+    private void saveOutboxEvent(com.ecommerce.event.BaseEvent event) {
+        try {
+            com.ecommerce.order.outbox.OutboxEvent outboxEvent = new com.ecommerce.order.outbox.OutboxEvent();
+            outboxEvent.setEventId(event.getEventId());
+            outboxEvent.setEventType(event.getEventType());
+            outboxEvent.setPayload(objectMapper.writeValueAsString(event));
+            outboxEvent.setStatus("PENDING");
+            outboxEventRepository.save(outboxEvent);
+        } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
+            throw new RuntimeException("Failed to serialize outbox event", e);
+        }
     }
 }

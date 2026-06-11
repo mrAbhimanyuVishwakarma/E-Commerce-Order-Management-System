@@ -40,9 +40,13 @@ public class JwtFilter extends OncePerRequestFilter {
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             // For microservices, we validate the token without a DB lookup.
             if (jwtUtil.validateToken(jwt, username)) {
-                // Giving ADMIN role to everyone for simplicity in this demo to bypass DB role lookups
+                java.util.List<String> roles = jwtUtil.extractRoles(jwt);
+                java.util.List<SimpleGrantedAuthority> authorities = roles.stream()
+                        .map(SimpleGrantedAuthority::new)
+                        .toList();
+
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                        username, null, Collections.singletonList(new SimpleGrantedAuthority("ROLE_ADMIN")));
+                        username, null, authorities);
                 usernamePasswordAuthenticationToken
                         .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
