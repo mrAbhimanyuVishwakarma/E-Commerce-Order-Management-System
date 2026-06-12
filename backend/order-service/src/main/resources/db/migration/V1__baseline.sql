@@ -1,6 +1,0 @@
-CREATE TABLE IF NOT EXISTS orders (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT NOT NULL,
-    total_amount DOUBLE NOT NULL,
-    status VARCHAR(255) NOT NULL
-);

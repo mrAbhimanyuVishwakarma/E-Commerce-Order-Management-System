@@ -1,4 +1,4 @@
-package com.ecommerce.notification.outbox;
+package com.ecommerce.order.outbox;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

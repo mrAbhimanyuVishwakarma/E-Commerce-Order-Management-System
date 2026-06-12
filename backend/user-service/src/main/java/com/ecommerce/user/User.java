@@ -44,10 +44,4 @@ public class User {
 
     @Column(nullable = false, columnDefinition = "boolean default false")
     private boolean isVerified;
-
-    @Column(nullable = false, columnDefinition = "int default 0")
-    private int otpAttempts = 0;
-
-    @Column(nullable = true)
-    private java.time.LocalDateTime otpLastSentAt;
 }

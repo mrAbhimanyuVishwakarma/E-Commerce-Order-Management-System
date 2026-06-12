@@ -1,4 +1,4 @@
-package com.ecommerce.inventory.outbox;
+package com.ecommerce.order.outbox;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

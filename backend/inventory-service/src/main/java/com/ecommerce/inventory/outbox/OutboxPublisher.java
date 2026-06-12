@@ -1,4 +1,4 @@
-package com.ecommerce.inventory.outbox;
+package com.ecommerce.order.outbox;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -36,22 +36,17 @@ public class OutboxPublisher {
                 log.info("Published event {} to topic {}", outboxEvent.getEventId(), topic);
             } catch (Exception e) {
                 log.error("Failed to publish event {}: {}", outboxEvent.getEventId(), e.getMessage());
-                outboxEvent.setRetryCount(outboxEvent.getRetryCount() + 1);
-                outboxEvent.setFailureDetails(e.getMessage());
-                if (outboxEvent.getRetryCount() >= 5) {
-                    outboxEvent.setStatus("FAILED");
-                }
-                outboxEventRepository.save(outboxEvent);
+                // We leave it as PENDING and it will be retried next time
             }
         }
     }
 
     private String getTopicForEventType(String eventType) {
         return switch (eventType) {
-            case "InventoryReservedEvent" -> "inventory-reserved";
-            case "InventoryRejectedEvent" -> "inventory-rejected";
-            case "InventoryReleasedEvent" -> "inventory-released";
-            case "InventoryReleaseRejectedEvent" -> "inventory-release-rejected";
+            case "InventoryReservationRequestedEvent" -> "inventory-reservation-requested";
+            case "OrderConfirmedEvent" -> "order-confirmed";
+            case "OrderRejectedEvent" -> "order-rejected";
+            case "InventoryReleaseRequestedEvent" -> "inventory-release-requested";
             default -> throw new IllegalArgumentException("Unknown event type: " + eventType);
         };
     }
