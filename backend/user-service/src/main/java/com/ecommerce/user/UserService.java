@@ -28,17 +28,20 @@ public class UserService {
     }
 
     public String generateOtpForUser(User user) {
+        if (user.getOtpLastSentAt() != null && user.getOtpLastSentAt().plusMinutes(1).isAfter(java.time.LocalDateTime.now())) {
+            throw new RuntimeException("Please wait before requesting a new OTP.");
+        }
+        
         // Generate a random 6-digit OTP
         String otp = String.format("%06d", new java.util.Random().nextInt(999999));
-        user.setOtpCode(otp);
-        user.setOtpExpiry(java.time.LocalDateTime.now().plusMinutes(10));
+        user.setOtpCode(passwordEncoder.encode(otp)); // Hash the OTP
+        user.setOtpExpiry(java.time.LocalDateTime.now().plusMinutes(5));
+        user.setOtpAttempts(0);
+        user.setOtpLastSentAt(java.time.LocalDateTime.now());
         userRepository.save(user);
         
-        // MOCK EMAIL/SMS SENDING - Print to console
-        System.out.println("=================================================");
-        System.out.println("MOCK SMS/EMAIL SENT TO: " + user.getEmail() + (user.getMobileNumber() != null ? " / " + user.getMobileNumber() : ""));
-        System.out.println("YOUR AXEDROBE VERIFICATION CODE IS: " + otp);
-        System.out.println("=================================================");
+        // In a real app we'd send an email/SMS here.
+        // We do NOT log the OTP to the console as per security requirements.
         
         return otp;
     }

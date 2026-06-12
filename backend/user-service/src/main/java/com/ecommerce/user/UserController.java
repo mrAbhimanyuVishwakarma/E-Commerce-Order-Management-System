@@ -66,17 +66,23 @@ public class UserController {
         return ResponseEntity.status(401).body(Map.of("message", "Authentication failed"));
     }
 
+    private final org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
+
     @PostMapping("/auth/verify-otp")
     public ResponseEntity<?> verifyOtp(@RequestBody OtpVerificationDto dto) {
         Optional<User> userOpt = userService.findByIdentifier(dto.getIdentifier());
         
         if (userOpt.isPresent()) {
             User user = userOpt.get();
-            if (user.getOtpCode() != null && user.getOtpCode().equals(dto.getOtp())) {
+            if (user.getOtpAttempts() >= 3) {
+                return ResponseEntity.status(429).body(Map.of("message", "Too many failed attempts. Please request a new OTP."));
+            }
+            if (user.getOtpCode() != null && passwordEncoder.matches(dto.getOtp(), user.getOtpCode())) {
                 if (user.getOtpExpiry() != null && java.time.LocalDateTime.now().isBefore(user.getOtpExpiry())) {
                     // OTP is valid
                     user.setOtpCode(null);
                     user.setOtpExpiry(null);
+                    user.setOtpAttempts(0);
                     user.setVerified(true);
                     userService.updateUser(user);
                     
@@ -88,6 +94,8 @@ public class UserController {
                     return ResponseEntity.status(400).body(Map.of("message", "OTP has expired"));
                 }
             } else {
+                user.setOtpAttempts(user.getOtpAttempts() + 1);
+                userService.updateUser(user);
                 return ResponseEntity.status(400).body(Map.of("message", "Invalid OTP"));
             }
         } else {

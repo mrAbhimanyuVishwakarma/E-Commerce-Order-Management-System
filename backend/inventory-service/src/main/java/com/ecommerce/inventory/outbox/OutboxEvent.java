@@ -29,4 +29,10 @@ public class OutboxEvent {
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    @Column(name = "retry_count")
+    private int retryCount = 0;
+
+    @Column(name = "failure_details", columnDefinition = "TEXT")
+    private String failureDetails;
 }

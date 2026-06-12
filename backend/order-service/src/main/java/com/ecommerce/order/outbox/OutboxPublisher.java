@@ -36,7 +36,12 @@ public class OutboxPublisher {
                 log.info("Published event {} to topic {}", outboxEvent.getEventId(), topic);
             } catch (Exception e) {
                 log.error("Failed to publish event {}: {}", outboxEvent.getEventId(), e.getMessage());
-                // We leave it as PENDING and it will be retried next time
+                outboxEvent.setRetryCount(outboxEvent.getRetryCount() + 1);
+                outboxEvent.setFailureDetails(e.getMessage());
+                if (outboxEvent.getRetryCount() >= 5) {
+                    outboxEvent.setStatus("FAILED");
+                }
+                outboxEventRepository.save(outboxEvent);
             }
         }
     }
