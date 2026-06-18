@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ShoppingBag, User, Search, Truck } from 'lucide-react';
+import { ShoppingBag, User, Search, Truck, Sun, Moon } from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
 import { ThemeContext } from '../context/ThemeContext';
 import './Header.css';
@@ -37,9 +37,9 @@ const Header = () => {
           </form>
 
           <div className="header-actions">
-            <div className={`theme-toggle ${isDarkMode ? 'dark' : 'light'}`} onClick={toggleTheme} title="Toggle Dark/Light Mode">
-              <div className="toggle-thumb"></div>
-            </div>
+            <button className="action-btn theme-icon-btn" onClick={toggleTheme} title="Toggle Dark/Light Mode">
+              {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
             <Link to="/orders" className="action-btn" title="Track Order">
               <Truck size={20} />
             </Link>

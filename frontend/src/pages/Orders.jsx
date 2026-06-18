@@ -68,7 +68,7 @@ const Orders = () => {
       ) : (
         <div className="orders-list">
           {orders.map((order, idx) => (
-            <div key={idx} style={{ padding: '20px', border: '1px solid #ddd', marginBottom: '15px', borderRadius: '8px' }}>
+            <div key={idx} style={{ padding: '20px', border: '1px solid var(--border-light)', marginBottom: '15px', borderRadius: '8px' }}>
               <h4>Order #{order.id || idx + 1}</h4>
               <p>Status: <strong>{order.status || 'PENDING'}</strong></p>
               <p>Total: ${order.totalAmount?.toFixed(2)}</p>

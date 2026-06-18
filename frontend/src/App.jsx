@@ -10,6 +10,12 @@ import Cart from './pages/Cart';
 import Products from './pages/Products';
 import ProductDetail from './pages/ProductDetail';
 import Orders from './pages/Orders';
+import ContactUs from './pages/ContactUs';
+import FAQ from './pages/FAQ';
+import { TermsAndConditions, TermsOfUse } from './pages/Terms';
+import TrackOrders from './pages/TrackOrders';
+import Shipping from './pages/Shipping';
+import Cancellation from './pages/Cancellation';
 import './index.css';
 
 import { ThemeProvider } from './context/ThemeContext';
@@ -32,6 +38,15 @@ function App() {
                 <Route path="/search" element={<Products />} />
                 <Route path="/product/:id" element={<ProductDetail />} />
                 <Route path="/orders" element={<Orders />} />
+                
+                {/* Static Pages */}
+                <Route path="/contact" element={<ContactUs />} />
+                <Route path="/faq" element={<FAQ />} />
+                <Route path="/terms" element={<TermsAndConditions />} />
+                <Route path="/terms-of-use" element={<TermsOfUse />} />
+                <Route path="/track-orders" element={<TrackOrders />} />
+                <Route path="/shipping" element={<Shipping />} />
+                <Route path="/cancellation" element={<Cancellation />} />
               </Routes>
             </main>
             <Footer />

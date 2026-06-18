@@ -15,7 +15,47 @@ const Products = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const initialFilterState = {
+    gender: '',
+    categories: [],
+    brands: [],
+    discount: ''
+  };
+
+  const [activeFilters, setActiveFilters] = useState(initialFilterState);
+  const [pendingFilters, setPendingFilters] = useState(initialFilterState);
+  
   const { showToast } = useToast();
+
+  const handleGenderChange = (e) => setPendingFilters({ ...pendingFilters, gender: e.target.value });
+  
+  const handleCategoryChange = (e) => {
+    const value = e.target.value;
+    const newCategories = pendingFilters.categories.includes(value) 
+      ? pendingFilters.categories.filter(c => c !== value)
+      : [...pendingFilters.categories, value];
+    setPendingFilters({ ...pendingFilters, categories: newCategories });
+  };
+
+  const handleBrandChange = (e) => {
+    const value = e.target.value;
+    const newBrands = pendingFilters.brands.includes(value) 
+      ? pendingFilters.brands.filter(b => b !== value)
+      : [...pendingFilters.brands, value];
+    setPendingFilters({ ...pendingFilters, brands: newBrands });
+  };
+
+  const handleDiscountChange = (e) => setPendingFilters({ ...pendingFilters, discount: e.target.value });
+
+  const handleApplyFilters = () => {
+    setActiveFilters(pendingFilters);
+    setIsFilterOpen(false); // optional: close on mobile
+  };
+
+  const handleClearFilters = () => {
+    setActiveFilters(initialFilterState);
+    setPendingFilters(initialFilterState);
+  };
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -65,8 +105,35 @@ const Products = () => {
       }
     }
 
+    // Apply Active Filters
+    if (activeFilters.gender) {
+      const g = activeFilters.gender.toLowerCase();
+      if (g === 'men') {
+        result = result.filter(p => !p.name.toLowerCase().includes('women') && !p.name.toLowerCase().includes('girls') && !p.name.toLowerCase().includes('dress'));
+      } else if (g === 'women') {
+        result = result.filter(p => p.name.toLowerCase().includes('women') || p.name.toLowerCase().includes('dress') || p.name.toLowerCase().includes('blouse'));
+      } else if (g === 'boys' || g === 'girls') {
+        result = result.filter(p => p.name.toLowerCase().includes(g));
+      }
+    }
+
+    if (activeFilters.categories.length > 0) {
+      result = result.filter(p => {
+        const name = p.name.toLowerCase();
+        return activeFilters.categories.some(cat => name.includes(cat.replace('-', ' ')));
+      });
+    }
+
+    if (activeFilters.brands.length > 0) {
+      result = result.filter(p => {
+        const name = p.name.toLowerCase();
+        const desc = (p.description || '').toLowerCase();
+        return activeFilters.brands.some(brand => name.includes(brand.toLowerCase()) || desc.includes(brand.toLowerCase()));
+      });
+    }
+
     setFilteredProducts(result);
-  }, [products, categoryId, searchQuery]);
+  }, [products, categoryId, searchQuery, activeFilters]);
 
   const handleAddToCart = (product) => {
     const currentCart = JSON.parse(localStorage.getItem('cart') || '[]');
@@ -101,42 +168,44 @@ const Products = () => {
         <aside className={`products-sidebar ${isFilterOpen ? 'mobile-open' : ''}`}>
           <div className="sidebar-header">
             <h3>FILTERS</h3>
-            <button className="clear-filters">CLEAR ALL</button>
+            <button className="clear-filters" onClick={handleClearFilters}>CLEAR ALL</button>
           </div>
 
           <div className="filter-group">
             <h4>GENDER</h4>
-            <label><input type="radio" name="gender" value="men" /> Men</label>
-            <label><input type="radio" name="gender" value="women" /> Women</label>
-            <label><input type="radio" name="gender" value="boys" /> Boys</label>
-            <label><input type="radio" name="gender" value="girls" /> Girls</label>
+            <label><input type="radio" name="gender" value="men" checked={pendingFilters.gender === 'men'} onChange={handleGenderChange} /> Men</label>
+            <label><input type="radio" name="gender" value="women" checked={pendingFilters.gender === 'women'} onChange={handleGenderChange} /> Women</label>
+            <label><input type="radio" name="gender" value="boys" checked={pendingFilters.gender === 'boys'} onChange={handleGenderChange} /> Boys</label>
+            <label><input type="radio" name="gender" value="girls" checked={pendingFilters.gender === 'girls'} onChange={handleGenderChange} /> Girls</label>
           </div>
 
           <div className="filter-group">
             <h4>CATEGORIES</h4>
-            <label><input type="checkbox" value="shirts" /> Shirts (650)</label>
-            <label><input type="checkbox" value="tshirts" /> Tshirts (551)</label>
-            <label><input type="checkbox" value="trousers" /> Trousers (201)</label>
-            <label><input type="checkbox" value="jeans" /> Jeans (184)</label>
-            <label><input type="checkbox" value="casual-shoes" /> Casual Shoes (99)</label>
+            <label><input type="checkbox" value="shirts" checked={pendingFilters.categories.includes('shirts')} onChange={handleCategoryChange} /> Shirts</label>
+            <label><input type="checkbox" value="tshirts" checked={pendingFilters.categories.includes('tshirts')} onChange={handleCategoryChange} /> Tshirts</label>
+            <label><input type="checkbox" value="trousers" checked={pendingFilters.categories.includes('trousers')} onChange={handleCategoryChange} /> Trousers</label>
+            <label><input type="checkbox" value="jeans" checked={pendingFilters.categories.includes('jeans')} onChange={handleCategoryChange} /> Jeans</label>
+            <label><input type="checkbox" value="shoes" checked={pendingFilters.categories.includes('shoes')} onChange={handleCategoryChange} /> Casual Shoes</label>
           </div>
 
           <div className="filter-group">
             <h4>BRAND</h4>
-            <label><input type="checkbox" value="roadster" /> Roadster</label>
-            <label><input type="checkbox" value="highlander" /> HIGHLANDER</label>
-            <label><input type="checkbox" value="hrx" /> HRX by Hrithik</label>
-            <label><input type="checkbox" value="uspa" /> U.S. Polo Assn.</label>
+            <label><input type="checkbox" value="roadster" checked={pendingFilters.brands.includes('roadster')} onChange={handleBrandChange} /> Roadster</label>
+            <label><input type="checkbox" value="highlander" checked={pendingFilters.brands.includes('highlander')} onChange={handleBrandChange} /> HIGHLANDER</label>
+            <label><input type="checkbox" value="hrx" checked={pendingFilters.brands.includes('hrx')} onChange={handleBrandChange} /> HRX by Hrithik</label>
+            <label><input type="checkbox" value="uspa" checked={pendingFilters.brands.includes('uspa')} onChange={handleBrandChange} /> U.S. Polo Assn.</label>
           </div>
 
           <div className="filter-group">
             <h4>DISCOUNT RANGE</h4>
-            <label><input type="radio" name="discount" value="10" /> 10% and above</label>
-            <label><input type="radio" name="discount" value="20" /> 20% and above</label>
-            <label><input type="radio" name="discount" value="30" /> 30% and above</label>
-            <label><input type="radio" name="discount" value="40" /> 40% and above</label>
-            <label><input type="radio" name="discount" value="50" /> 50% and above</label>
+            <label><input type="radio" name="discount" value="10" checked={pendingFilters.discount === '10'} onChange={handleDiscountChange} /> 10% and above</label>
+            <label><input type="radio" name="discount" value="20" checked={pendingFilters.discount === '20'} onChange={handleDiscountChange} /> 20% and above</label>
+            <label><input type="radio" name="discount" value="30" checked={pendingFilters.discount === '30'} onChange={handleDiscountChange} /> 30% and above</label>
+            <label><input type="radio" name="discount" value="40" checked={pendingFilters.discount === '40'} onChange={handleDiscountChange} /> 40% and above</label>
+            <label><input type="radio" name="discount" value="50" checked={pendingFilters.discount === '50'} onChange={handleDiscountChange} /> 50% and above</label>
           </div>
+
+          <button className="btn btn-primary" style={{ width: '100%', marginTop: '1rem' }} onClick={handleApplyFilters}>Apply Filters</button>
         </aside>
 
         {/* Main Content Area */}

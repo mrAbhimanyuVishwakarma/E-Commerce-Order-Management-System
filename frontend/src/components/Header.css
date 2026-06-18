@@ -7,10 +7,10 @@
 }
 
 .header-top {
-  background-color: #111111;
-  color: #ffffff;
+  background-color: var(--header-bg);
+  color: var(--text-primary);
   padding: 1rem 0;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .header-top-content {
@@ -23,28 +23,28 @@
   font-size: 1.8rem;
   font-weight: 700;
   letter-spacing: 4px;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .search-bar {
   display: flex;
   align-items: center;
   background-color: transparent;
-  border: 1px solid #555;
+  border: 1px solid var(--border-light);
   border-radius: 4px;
   padding: 0.5rem 1rem;
   width: 40%;
 }
 
 .search-icon {
-  color: #aaa;
+  color: var(--text-secondary);
   margin-right: 0.5rem;
 }
 
 .search-bar input {
   background: transparent;
   border: none;
-  color: #fff;
+  color: var(--text-primary);
   width: 100%;
   font-family: inherit;
 }
@@ -54,7 +54,7 @@
 }
 
 .search-bar input::placeholder {
-  color: #aaa;
+  color: var(--text-secondary);
 }
 
 .header-actions {
@@ -66,7 +66,7 @@
 .action-btn {
   background: none;
   border: none;
-  color: #ffffff;
+  color: var(--text-primary);
   cursor: pointer;
   transition: color 0.3s ease;
   display: flex;
@@ -78,8 +78,8 @@
 }
 
 .header-bottom {
-  background-color: #2b2b2b;
-  color: #ffffff;
+  background-color: var(--header-bottom-bg);
+  color: var(--text-primary);
   padding: 0.8rem 0;
 }
 
@@ -93,12 +93,12 @@
   font-size: 0.95rem;
   font-weight: 400;
   letter-spacing: 0.5px;
-  color: #e0e0e0;
+  color: var(--text-secondary);
   position: relative;
 }
 
 .nav-link:hover {
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 /* Mobile Responsive Adjustments */
@@ -121,7 +121,7 @@
 .theme-toggle {
   width: 36px;
   height: 20px;
-  background-color: #ddd;
+  background-color: var(--border-light);
   border-radius: 10px;
   position: relative;
   cursor: pointer;
@@ -132,13 +132,13 @@
 }
 
 .theme-toggle.dark {
-  background-color: #555;
+  background-color: var(--border-color);
 }
 
 .toggle-thumb {
   width: 14px;
   height: 14px;
-  background-color: #111;
+  background-color: var(--bg-primary);
   border-radius: 50%;
   position: absolute;
   left: 3px;
@@ -147,5 +147,5 @@
 
 .theme-toggle.dark .toggle-thumb {
   transform: translateX(16px);
-  background-color: #fff;
+  background-color: var(--text-primary);
 }

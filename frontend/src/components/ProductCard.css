@@ -1,5 +1,5 @@
 .product-card {
-  background-color: var(--surface-color);
+  background-color: var(--bg-secondary);
   border-radius: var(--radius);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
@@ -31,15 +31,15 @@
   width: 100%;
   aspect-ratio: 1;
   overflow: hidden;
-  background-color: #f8f8f8;
+  background-color: var(--bg-tertiary);
 }
 
 .badge-tag {
   position: absolute;
   top: 10px;
   left: 10px;
-  background: #ffeded;
-  color: #ff4747;
+  background: var(--error-bg);
+  color: var(--error-color);
   font-size: 0.75rem;
   font-weight: 700;
   padding: 4px 8px;
@@ -67,7 +67,7 @@
 }
 
 .rating {
-  color: #1e8f39;
+  color: var(--success-color);
   font-size: 0.8rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
@@ -104,19 +104,19 @@
 
 .original-price {
   font-size: 0.9rem;
-  color: #999999;
+  color: var(--text-muted);
   text-decoration: line-through;
 }
 
 .discount {
-  color: #1e8f39;
+  color: var(--success-color);
   font-size: 0.85rem;
   font-weight: 700;
   margin-left: auto;
 }
 
 .offer-text {
-  color: #1e8f39;
+  color: var(--success-color);
   font-size: 0.8rem;
   margin-bottom: 1rem;
   display: flex;
@@ -125,7 +125,7 @@
 }
 
 .check-icon {
-  background: #1e8f39;
+  background: var(--success-color);
   color: white;
   border-radius: 50%;
   width: 14px;
@@ -137,8 +137,8 @@
 }
 
 .add-to-cart-btn {
-  background: #FFDC24;
-  color: var(--text-primary);
+  background: var(--accent-primary);
+  color: var(--bg-primary);
   border: none;
   padding: 0.8rem;
   border-radius: 8px;
@@ -154,7 +154,7 @@
 }
 
 .add-to-cart-btn:hover {
-  background: #f0cf1f;
+  background: var(--accent-primary-hover);
 }
 
 .product-actions {

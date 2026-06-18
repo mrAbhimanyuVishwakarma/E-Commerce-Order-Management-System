@@ -48,7 +48,7 @@
 
 .pdp-title {
   font-size: 20px;
-  color: #535665;
+  color: var(--text-muted);
   font-weight: 400;
   margin-bottom: 15px;
 }
@@ -56,7 +56,7 @@
 .pdp-rating {
   display: inline-flex;
   align-items: center;
-  border: 1px solid #eaeaec;
+  border: 1px solid var(--border-color);
   padding: 5px 10px;
   border-radius: 2px;
   margin-bottom: 20px;
@@ -64,12 +64,12 @@
 
 .rating-stars {
   font-weight: 700;
-  color: #14958f;
+  color: var(--success-color);
   margin-right: 5px;
 }
 
 .rating-count {
-  color: #535665;
+  color: var(--text-muted);
   font-size: 14px;
 }
 
@@ -88,19 +88,19 @@
 
 .pdp-pricing .original-price {
   font-size: 20px;
-  color: #7e818c;
+  color: var(--text-secondary);
   text-decoration: line-through;
 }
 
 .pdp-pricing .discount {
   font-size: 20px;
   font-weight: 700;
-  color: #ff905a;
+  color: var(--warning-color);
 }
 
 .tax-inclusive {
   font-size: 14px;
-  color: #03a685;
+  color: var(--success-color);
   font-weight: 700;
   margin-bottom: 25px;
 }
@@ -123,7 +123,7 @@
 .color-thumb {
   width: 50px;
   height: 65px;
-  border: 1px solid #eaeaec;
+  border: 1px solid var(--border-color);
   border-radius: 2px;
   overflow: hidden;
   cursor: pointer;
@@ -131,7 +131,7 @@
 }
 
 .color-thumb:hover {
-  border-color: #ff3f6c;
+  border-color: var(--error-color);
 }
 
 .color-thumb img {
@@ -147,7 +147,7 @@
 }
 
 .size-chart-link {
-  color: #ff3f6c;
+  color: var(--error-color);
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
@@ -163,7 +163,7 @@
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  border: 1px solid #bfc0c6;
+  border: 1px solid var(--border-light);
   background: var(--bg-secondary);
   color: var(--text-primary);
   font-size: 14px;
@@ -176,13 +176,13 @@
 }
 
 .size-btn:hover {
-  border-color: #ff3f6c;
+  border-color: var(--error-color);
 }
 
 .size-btn.selected {
-  border-color: #ff3f6c;
-  color: #ff3f6c;
-  background-color: #fff9fa;
+  border-color: var(--error-color);
+  color: var(--error-color);
+  background-color: var(--error-bg);
 }
 
 .pdp-actions {
@@ -193,8 +193,8 @@
 
 .btn-add-to-bag {
   flex: 2;
-  background-color: #ff3f6c;
-  color: white;
+  background-color: var(--error-color);
+  color: var(--text-primary);
   border: none;
   padding: 15px 0;
   font-size: 16px;
@@ -205,19 +205,19 @@
   justify-content: center;
   align-items: center;
   gap: 10px;
-  box-shadow: 0 4px 12px rgba(255, 63, 108, 0.2);
-  transition: background-color 0.2s;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: opacity 0.2s;
 }
 
 .btn-add-to-bag:hover {
-  background-color: #ff527b;
+  opacity: 0.9;
 }
 
 .btn-wishlist {
   flex: 1;
   background-color: var(--bg-secondary);
   color: var(--text-primary);
-  border: 1px solid #d4d5d9;
+  border: 1px solid var(--border-light);
   padding: 15px 0;
   font-size: 14px;
   font-weight: 700;
@@ -240,7 +240,7 @@
   color: var(--text-primary);
   margin-bottom: 15px;
   padding-bottom: 15px;
-  border-bottom: 1px solid #eaeaec;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .pdp-description p {

@@ -1,35 +1,72 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Geist+Mono:wght@400&display=swap');
 
 :root {
-  /* Color Palette */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f9f9f9;
-  --text-primary: #1a1a1a;
-  --text-secondary: #666666;
+  /* Dark Mode - Vercel Inspired Palette */
+  --bg-primary: #000000;
+  --bg-secondary: #111111;
+  --bg-tertiary: #171717;
   
-  --accent-primary: #FFD700; /* Rich Gold */
-  --accent-secondary: #111111; /* Deep Black */
+  --text-primary: #ffffff;
+  --text-secondary: #a1a1a1;
+  --text-muted: #888888;
+  --text-inverse: #171717;
   
-  --glass-bg: rgba(255, 255, 255, 0.85);
-  --glass-border: rgba(255, 255, 255, 0.2);
-  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+  --accent-primary: #ffffff; /* White CTA in dark mode */
+  --accent-primary-hover: #ebebeb;
+  --accent-secondary: #171717;
+  
+  --primary-color: var(--text-primary); /* Alias for legacy components */
+  
+  --border-color: #333333;
+  --border-light: #222222;
 
-  --border-radius: 12px;
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --success-color: #0070f3; /* Vercel Link/Success Blue */
+  --error-color: #ee0000;
+  --error-bg: rgba(238, 0, 0, 0.1);
+  --warning-color: #f5a623;
+  
+  --glass-bg: rgba(17, 17, 17, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 1px 1px rgba(0,0,0,0.05), 0 2px 2px rgba(0,0,0,0.1), inset 0 0 0 1px rgba(255,255,255,0.1);
+
+  --header-bg: #000000;
+  --header-bottom-bg: #111111;
+
+  --border-radius: 8px; /* Vercel base radius */
+  --transition: all 0.2s ease-in-out;
 }
 
-body.dark-mode {
-  --bg-primary: #121212;
-  --bg-secondary: #1e1e1e;
-  --text-primary: #ffffff;
-  --text-secondary: #aaaaaa;
+:root.light-mode {
+  /* Light Mode - Vercel Inspired Palette */
+  --bg-primary: #ffffff;
+  --bg-secondary: #fafafa;
+  --bg-tertiary: #f5f5f5;
   
-  --accent-primary: #FFD700;
+  --text-primary: #171717;
+  --text-secondary: #4d4d4d;
+  --text-muted: #888888;
+  --text-inverse: #ffffff;
+  
+  --accent-primary: #171717; /* Ink Black CTA in light mode */
+  --accent-primary-hover: #333333;
   --accent-secondary: #ffffff;
+  
+  --primary-color: var(--text-primary); /* Alias for legacy components */
+  
+  --border-color: #ebebeb;
+  --border-light: #eaeaea;
 
-  --glass-bg: rgba(30, 30, 30, 0.85);
-  --glass-border: rgba(255, 255, 255, 0.05);
-  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+  --success-color: #0070f3;
+  --error-color: #ee0000;
+  --error-bg: #f7d4d6;
+  --warning-color: #f5a623;
+
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(0, 0, 0, 0.1);
+  --glass-shadow: 0 1px 1px rgba(0,0,0,0.05), 0 2px 2px rgba(0,0,0,0.1), inset 0 0 0 1px rgba(0,0,0,0.05);
+
+  --header-bg: #ffffff;
+  --header-bottom-bg: #fafafa;
 }
 
 * {
@@ -39,7 +76,7 @@ body.dark-mode {
 }
 
 body {
-  font-family: 'Outfit', sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   background-color: var(--bg-primary);
   color: var(--text-primary);
   line-height: 1.6;
@@ -59,19 +96,31 @@ a {
 }
 
 a:hover {
-  color: var(--accent-primary);
+  color: var(--success-color);
 }
 
 /* Typography */
 h1, h2, h3, h4, h5, h6 {
-  font-weight: 700;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-weight: 600;
   line-height: 1.2;
   margin-bottom: 1rem;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
 }
 
-h1 { font-size: 3.5rem; }
-h2 { font-size: 2.5rem; }
-h3 { font-size: 1.75rem; }
+h1 { font-size: 3rem; letter-spacing: -0.05em; }
+h2 { font-size: 2rem; letter-spacing: -0.03em; }
+h3 { font-size: 1.5rem; letter-spacing: -0.02em; }
+
+/* Focus states (Accessibility) */
+*:focus-visible {
+  outline: 2px solid var(--success-color);
+  outline-offset: 2px;
+}
+*:focus:not(:focus-visible) {
+  outline: none;
+}
 
 /* Utilities */
 .container {
@@ -94,36 +143,33 @@ h3 { font-size: 1.75rem; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.75rem 1.5rem;
-  border-radius: 50px;
-  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 100px; /* Vercel primary/secondary button pill shape */
+  font-weight: 500;
   cursor: pointer;
-  border: none;
+  border: 1px solid transparent;
   transition: var(--transition);
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 0.875rem; /* 14px */
 }
 
 .btn-primary {
   background-color: var(--accent-primary);
-  color: #111;
-  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+  color: var(--text-inverse);
 }
 
 .btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+  background-color: var(--accent-primary-hover);
 }
 
 .btn-secondary {
-  background-color: transparent;
+  background-color: var(--bg-primary);
   color: var(--text-primary);
-  border: 2px solid var(--accent-secondary);
+  border: 1px solid var(--border-light);
 }
 
 .btn-secondary:hover {
-  background-color: var(--accent-secondary);
-  color: var(--bg-primary);
+  background-color: var(--bg-secondary);
 }
 
 /* Inputs */
@@ -134,26 +180,27 @@ h3 { font-size: 1.75rem; }
 .input-group label {
   display: block;
   margin-bottom: 0.5rem;
-  font-weight: 600;
-  font-size: 0.9rem;
+  font-weight: 500;
+  font-size: 0.875rem;
 }
 
 .input-group input {
   width: 100%;
-  padding: 0.75rem 1rem;
-  border: 1px solid var(--glass-border);
-  border-radius: var(--border-radius);
-  background-color: var(--bg-secondary);
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background-color: var(--bg-primary);
   color: var(--text-primary);
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 0.875rem;
   transition: var(--transition);
+  height: 40px;
 }
 
 .input-group input:focus {
   outline: none;
-  border-color: var(--accent-primary);
-  box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+  border-color: var(--text-muted);
+  box-shadow: 0 0 0 1px var(--text-muted);
 }
 
 /* Animations */

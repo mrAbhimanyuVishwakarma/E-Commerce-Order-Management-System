@@ -2,8 +2,8 @@
   position: fixed;
   bottom: 30px;
   right: 30px;
-  background-color: #333;
-  color: white;
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
   padding: 12px 24px;
   border-radius: 8px;
   display: flex;
@@ -23,23 +23,23 @@
 }
 
 .toast-success {
-  border-left: 4px solid #4CAF50;
+  border-left: 4px solid var(--success-color);
 }
 
 .toast-success .toast-icon {
-  background-color: #4CAF50;
+  background-color: var(--success-color);
 }
 
 .toast-error {
-  border-left: 4px solid #f44336;
+  border-left: 4px solid var(--error-color);
 }
 
 .toast-error .toast-icon {
-  background-color: #f44336;
+  background-color: var(--error-color);
 }
 
 .toast-icon {
-  color: white;
+  color: var(--text-inverse);
   width: 24px;
   height: 24px;
   border-radius: 50%;

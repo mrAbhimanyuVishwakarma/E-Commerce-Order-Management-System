@@ -1,6 +1,6 @@
 .footer-container {
   background-color: var(--bg-secondary);
-  border-top: 1px solid #eaeaec;
+  border-top: 1px solid var(--border-color);
   padding-top: 40px;
   color: var(--text-primary);
   font-family: inherit;
@@ -43,7 +43,7 @@
 }
 
 .footer-column ul li a {
-  color: #696e79;
+  color: var(--text-muted);
   text-decoration: none;
   font-size: 15px;
   transition: color 0.2s ease;
@@ -96,23 +96,23 @@
 
 .trust-item p {
   font-size: 15px;
-  color: #696e79;
+  color: var(--text-muted);
   margin: 0;
 }
 
 .trust-item strong {
-  color: #282c3f;
+  color: var(--text-primary);
 }
 
 .footer-bottom {
-  border-top: 1px solid #eaeaec;
+  border-top: 1px solid var(--border-color);
   padding: 20px 0;
   text-align: center;
-  background-color: #fafbfc;
+  background-color: var(--bg-tertiary);
 }
 
 .footer-bottom p {
-  color: #696e79;
+  color: var(--text-muted);
   font-size: 14px;
   margin: 0;
 }
