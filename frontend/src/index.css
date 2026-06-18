@@ -13,7 +13,6 @@
   
   --accent-primary: #ffffff; /* White CTA in dark mode */
   --accent-primary-hover: #ebebeb;
-  --accent-secondary: #171717;
   
   --primary-color: var(--text-primary); /* Alias for legacy components */
   
@@ -49,7 +48,6 @@
   
   --accent-primary: #171717; /* Ink Black CTA in light mode */
   --accent-primary-hover: #333333;
-  --accent-secondary: #ffffff;
   
   --primary-color: var(--text-primary); /* Alias for legacy components */
   

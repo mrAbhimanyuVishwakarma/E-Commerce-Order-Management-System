@@ -37,7 +37,7 @@
 }
 
 .hero-title .highlight {
-  color: var(--accent-primary);
+  color: #ffffff !important;
 }
 
 .hero-subtitle {
