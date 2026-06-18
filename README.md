@@ -300,13 +300,11 @@ E-Commerce-Order-Management-System
 │   └── (React Application)
 │
 ├── docs/
-│   ├── Interview-Questions.md
-│   └── E-Commerce-Postman-Collection.json
-│
-├── archive/
-│   └── ecommerce-monolith/
+│   ├── E-Commerce-Postman-Collection.json
+│   └── Service URI - axedrobe-abhimanyuvis.txt
 │
 ├── docker-compose.yml
+├── start.bat
 └── README.md
 ```
 
