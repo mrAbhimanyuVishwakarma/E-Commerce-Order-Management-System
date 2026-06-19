@@ -16,6 +16,8 @@ import { TermsAndConditions, TermsOfUse } from './pages/Terms';
 import TrackOrders from './pages/TrackOrders';
 import Shipping from './pages/Shipping';
 import Cancellation from './pages/Cancellation';
+import NotFound from './pages/NotFound';
+import ServerError from './pages/ServerError';
 import './index.css';
 
 import { ThemeProvider } from './context/ThemeContext';
@@ -47,6 +49,10 @@ function App() {
                 <Route path="/track-orders" element={<TrackOrders />} />
                 <Route path="/shipping" element={<Shipping />} />
                 <Route path="/cancellation" element={<Cancellation />} />
+                
+                {/* Error Pages */}
+                <Route path="/500" element={<ServerError />} />
+                <Route path="*" element={<NotFound />} />
               </Routes>
             </main>
             <Footer />
