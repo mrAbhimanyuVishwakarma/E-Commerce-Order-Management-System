@@ -80,8 +80,6 @@ const Home = () => {
         )}
       </section>
 
-      <FAQSection />
-
       <section className="container seo-content" style={{ marginTop: '4rem', paddingBottom: '4rem', color: '#555', lineHeight: '1.8' }}>
         <h2 style={{ fontSize: '1.8rem', marginBottom: '1.5rem', color: '#222' }}>Discover the Best AxeDrobe Official Store Online</h2>
         <p style={{ marginBottom: '1rem' }}>
@@ -113,6 +111,8 @@ const Home = () => {
           <a href="/contact-us.html" style={{ color: '#000', fontWeight: 'bold', textDecoration: 'underline' }}>Contact Us</a>
         </div>
       </section>
+
+      <FAQSection />
     </div>
   );
 };
