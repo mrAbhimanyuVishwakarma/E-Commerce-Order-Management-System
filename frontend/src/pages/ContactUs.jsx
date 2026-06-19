@@ -60,21 +60,21 @@ const ContactUs = () => {
               <MapPin size={24} />
               <div>
                 <h4>Our Headquarters</h4>
-                <p>123 Fashion Ave, Suite 400<br/>New York, NY 10001<br/>United States</p>
+                <p>Bengaluru, India</p>
               </div>
             </div>
             <div className="contact-item">
               <Phone size={24} />
               <div>
                 <h4>Phone Support</h4>
-                <p>+1 (555) 123-4567<br/>Mon-Fri, 9am - 6pm EST</p>
+                <p>8944905120<br/>Mon-Fri, 9am - 6pm IST</p>
               </div>
             </div>
             <div className="contact-item">
               <Mail size={24} />
               <div>
                 <h4>Email Support</h4>
-                <p>support@axedrobe.com<br/>We reply within 24 hours</p>
+                <p>axedrobe@gmail.com<br/>We reply within 24 hours</p>
               </div>
             </div>
           </div>
