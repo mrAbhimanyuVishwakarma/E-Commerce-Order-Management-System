@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ShoppingBag, User, Search, Truck, Sun, Moon } from 'lucide-react';
+import { ShoppingBag, User, Search, Truck, Sun, Moon, Menu, X } from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
 import { ThemeContext } from '../context/ThemeContext';
 import './Header.css';
@@ -9,6 +9,7 @@ const Header = () => {
   const { token, logout } = useContext(AuthContext);
   const { isDarkMode, toggleTheme } = useContext(ThemeContext);
   const [searchTerm, setSearchTerm] = React.useState('');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const navigate = useNavigate();
 
   const handleSearch = (e) => {
@@ -36,6 +37,14 @@ const Header = () => {
             />
           </form>
 
+          <button 
+            className="mobile-menu-btn" 
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle Menu"
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+
           <div className="header-actions">
             <button className="action-btn theme-icon-btn" onClick={toggleTheme} title="Toggle Dark/Light Mode">
               {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
@@ -62,14 +71,38 @@ const Header = () => {
       <div className="header-bottom">
         <div className="container">
           <nav className="nav-links">
-            <Link to="/category/best-sellers" className="nav-link">Best Sellers</Link>
-            <Link to="/category/new-arrivals" className="nav-link">New Arrivals</Link>
-            <Link to="/category/men" className="nav-link">Men</Link>
-            <Link to="/category/women" className="nav-link">Women</Link>
-            <Link to="/category/accessories" className="nav-link">Accessories</Link>
-            <Link to="/category/sale" className="nav-link">Sale</Link>
+            <Link to="/category/best-sellers" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Best Sellers</Link>
+            <Link to="/category/new-arrivals" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>New Arrivals</Link>
+            <Link to="/category/men" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Men</Link>
+            <Link to="/category/women" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Women</Link>
+            <Link to="/category/accessories" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Accessories</Link>
+            <Link to="/category/sale" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Sale</Link>
           </nav>
         </div>
+      </div>
+      
+      <div className={`mobile-menu-dropdown ${isMobileMenuOpen ? 'open' : ''}`}>
+        <Link to="/about" className="nav-link mobile-dropdown-link" onClick={() => setIsMobileMenuOpen(false)}>
+          About Us
+        </Link>
+        <Link to="/orders" className="nav-link mobile-dropdown-link" onClick={() => setIsMobileMenuOpen(false)}>
+          Track Order
+        </Link>
+        <Link to="/cart" className="nav-link mobile-dropdown-link" onClick={() => setIsMobileMenuOpen(false)}>
+          Cart
+        </Link>
+        {token ? (
+          <button className="nav-link mobile-dropdown-link mobile-btn" onClick={() => { logout(); setIsMobileMenuOpen(false); }}>
+            Logout
+          </button>
+        ) : (
+          <Link to="/auth" className="nav-link mobile-dropdown-link" onClick={() => setIsMobileMenuOpen(false)}>
+            Login
+          </Link>
+        )}
+        <button className="nav-link mobile-dropdown-link mobile-btn" onClick={() => { toggleTheme(); setIsMobileMenuOpen(false); }}>
+          {isDarkMode ? 'Light Mode' : 'Dark Mode'}
+        </button>
       </div>
     </header>
   );

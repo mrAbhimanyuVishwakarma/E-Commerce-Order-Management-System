@@ -101,10 +101,91 @@
   color: var(--text-primary);
 }
 
+.mobile-menu-dropdown {
+  display: none;
+}
+
+.mobile-btn {
+  background: none;
+  border: none;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
+  padding: 0;
+}
+
+/* Mobile Menu Button */
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.mobile-menu-btn:hover {
+  color: #FFD700;
+}
+
 /* Mobile Responsive Adjustments */
 @media (max-width: 768px) {
+  .logo {
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+  }
+
+  .header-top-content {
+    position: relative;
+  }
+
   .header-bottom {
-    display: none; /* Hide desktop category links on mobile */
+    display: block; /* Show categories on mobile */
+    overflow-x: auto;
+    scrollbar-width: none; /* Firefox */
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .header-bottom::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
+
+  .nav-links {
+    justify-content: flex-start;
+    padding: 0 1rem;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+  }
+
+  .mobile-menu-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: var(--header-bottom-bg);
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+  }
+
+  .mobile-menu-dropdown.open {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 2rem;
+    gap: 1.2rem;
+    animation: slideDown 0.3s ease-out forwards;
+  }
+
+  .mobile-dropdown-link {
+    font-size: 1rem;
+    color: var(--text-secondary);
+  }
+
+  .mobile-dropdown-link:hover {
+    color: var(--text-primary);
   }
 
   .header-actions {
@@ -112,8 +193,29 @@
   }
 
   .search-bar {
-    width: 60%; /* Expand search bar on mobile */
-    margin-left: 10px;
+    width: 50%; /* Adjust search bar width */
+    margin-left: auto;
+    margin-right: 10px;
+    transition: all 0.3s ease;
+  }
+
+  .search-bar:focus-within {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 10px;
+    right: 10px;
+    width: calc(100% - 20px);
+    background-color: var(--header-bg);
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    border-color: var(--text-primary);
+  }
+
+  .mobile-menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 

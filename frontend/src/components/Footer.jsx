@@ -21,12 +21,13 @@ const Footer = () => {
           </div>
 
           <div className="footer-column">
-            <h4>CUSTOMER POLICIES</h4>
+            <h4>CUSTOMER POLICIES & INFO</h4>
             <ul>
-              <li><Link to="/contact">Contact Us</Link></li>
+              <li><a href="/about-us.html">About Us</a></li>
+              <li><a href="/contact-us.html">Contact Us</a></li>
+              <li><a href="/privacy-policy.html">Privacy Policy</a></li>
+              <li><a href="/terms-conditions.html">Terms & Conditions</a></li>
               <li><Link to="/faq">FAQ</Link></li>
-              <li><Link to="/terms">T&C</Link></li>
-              <li><Link to="/terms-of-use">Terms Of Use</Link></li>
               <li><Link to="/track-orders">Track Orders</Link></li>
               <li><Link to="/shipping">Shipping</Link></li>
               <li><Link to="/cancellation">Cancellation</Link></li>
