@@ -48,7 +48,7 @@ echo =======================================================
 echo  SUCCESS! All services are up and running!
 echo =======================================================
 echo.
-echo  Website: http://localhost:3000
+echo  Website: http://localhost:8080
 echo.
 echo  Swagger UI Links:
 echo  - Product Service: http://localhost:8082/swagger-ui/index.html

@@ -89,7 +89,7 @@ services:
     container_name: frontend
     restart: on-failure
     ports:
-      - "3000:80"
+      - "8080:80"
     depends_on:
       - user-service
       - product-service
