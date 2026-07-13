@@ -1,5 +1,7 @@
 # E-Commerce Order Management System
 
+<img width="661" height="395" alt="image" src="https://github.com/user-attachments/assets/c9a5e41d-fe27-4c71-adc7-9eef0c7685bb" />
+
 ## Project Overview
 
 A microservices-based e-commerce backend application demonstrating:
