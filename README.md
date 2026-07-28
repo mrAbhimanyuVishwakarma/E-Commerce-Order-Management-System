@@ -1,6 +1,7 @@
 # E-Commerce Order Management System
 
-<img width="661" height="395" alt="image" src="https://github.com/user-attachments/assets/c9a5e41d-fe27-4c71-adc7-9eef0c7685bb" />
+<img width="1250" height="703" alt="axedrobe_dark" src="https://github.com/user-attachments/assets/2389ee10-32e9-4587-b3f0-11d6212c1d91" />
+<img width="1250" height="703" alt="axedrobe_light" src="https://github.com/user-attachments/assets/a8541d80-165b-4217-8710-54e842a16b27" />
 
 ## Project Overview
 
