@@ -2,6 +2,10 @@
 
 <img width="1250" height="703" alt="axedrobe_dark" src="https://github.com/user-attachments/assets/2389ee10-32e9-4587-b3f0-11d6212c1d91" />
 <img width="1250" height="703" alt="axedrobe_light" src="https://github.com/user-attachments/assets/a8541d80-165b-4217-8710-54e842a16b27" />
+<img width="966" height="596" alt="axedrobe_shop" src="https://github.com/user-attachments/assets/98db89d0-8ee5-4b7c-a492-6fac02d3a9f3" />
+<img width="1004" height="408" alt="axedrobe_jcart" src="https://github.com/user-attachments/assets/a64efb2a-8909-4757-93a2-868f6abe487d" />
+
+
 
 ## Project Overview
 
